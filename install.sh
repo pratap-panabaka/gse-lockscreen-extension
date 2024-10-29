@@ -21,10 +21,10 @@ echo -e "\t1. gnome-shell version $SHELL_VERSION detected"
 
 cd src
 
-echo -e "\t2. Creating zip file"
+echo -e "\t2. Creating zip file..."
 zip -qr $ZIP_NAME ./* && echo -e "\t3. zip file created"
 
-echo -e "\t4. Installing the extension from the zip file\n"
+echo -e "\t4. Installing the extension from the zip file...\n"
 
 gnome-extensions install -f $ZIP_NAME
 rm -rf $ZIP_NAME
@@ -33,7 +33,7 @@ echo -e "\t------------------------------------------
 \t| gnome-lockscreen-extension is installed |
 \t------------------------------------------
 
-\tEnable the extension, once extension is enabled then
+\tNow please enable the extension, once extension is enabled then
 \tYou can set background with image(with blur) or color/gradient for each monitor upto 4 monitors independently"
 echo -e "\n\t~~~~~~~~~~~~~~~~~~ Thank You ~~~~~~~~~~~~~~~~~~\n"
 exit 0
