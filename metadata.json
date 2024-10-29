@@ -1,0 +1,16 @@
+{
+  "description": "Customize Gnome Lockscreen",
+  "name": "Gnome Lockscreen Extension",
+  "shell-version": [
+    "45",
+    "46",
+    "47"
+  ],
+  "session-modes": [
+    "unlock-dialog"
+  ],
+  "url": "https://github.com/PRATAP-KUMAR/gnome-lockscreen-extension",
+  "settings-schema": "org.gnome.shell.extensions.gnome-lockscreen-extension",
+  "uuid": "gnome-lockscreen-extension@pratap.fastmail.fm",
+  "version": 1
+}
