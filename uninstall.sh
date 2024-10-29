@@ -13,6 +13,7 @@ if $(gnome-extensions list | grep -q $UUID); then
     gnome-extensions uninstall $UUID
 else
     echo -e "\textension is not installed"
+    echo -e "\n\t~~~~~~~~~~~~~~~~~~ Thank You ~~~~~~~~~~~~~~~~~~\n\n"
     exit 1
 fi
 
@@ -20,5 +21,5 @@ echo -e "\t------------------------------------------
 \t| gnome-lockscreen-extension is uninstalled |
 \t------------------------------------------"
 
-echo -e "\n\t~~~~~~~~~~~~~~~~~~ Thank You ~~~~~~~~~~~~~~~~~~\n"
+echo -e "\n\t~~~~~~~~~~~~~~~~~~ Thank You ~~~~~~~~~~~~~~~~~~\n\n"
 exit 0
