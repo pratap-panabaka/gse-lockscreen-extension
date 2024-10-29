@@ -7,6 +7,13 @@ This extension is a improvment of [Control Blur Effect on Lock Screen](https://g
 > [!NOTE]
 > Currently it is tested on Arch Linux and Ubuntu 24.10
 
+### Install
+```
+git clone https://github.com/PRATAP-KUMAR/gnome-lockscreen-extension
+cd gnome-lockscreen-extension
+./install.sh
+```
+
 > [!TIP]
 > After you hide the extension icon from the gnome-lockscreen, to show the gnome-lockscreen-extension icon, run below commands
 >
@@ -15,7 +22,10 @@ This extension is a improvment of [Control Blur Effect on Lock Screen](https://g
 > gsettings --schemadir .local/share/gnome-shell/extensions/gnome-lockscreen-extension@pratap.fastmail.fm/schemas set org.gnome.shell.extensions.gnome-lockscreen-extension hide-gnome-lockscreen-extension-icon false
 > ```
 
-
+### Uninstall
+```
+./uninstall.sh
+```
 
 ![gnome-lockscreen-extension](https://github.com/user-attachments/assets/71c1d659-bcb0-4367-b8a8-95e54f5f6740)
 
