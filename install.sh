@@ -15,7 +15,7 @@ then
     exit 1
 fi
 
-echo -e "\n\n\t~~~~~~~~~~~~~~~~ gnome-lockscreen-extension ~~~~~~~~~~~~~~~~\n"
+echo -e "\n\n\t~~~~~~~~~~~~~~~~ lockscreen-extension ~~~~~~~~~~~~~~~~\n"
 echo -e "\trunning the script...\n"
 echo -e "\t1. gnome-shell version $SHELL_VERSION detected"
 
@@ -30,7 +30,7 @@ gnome-extensions install -f $ZIP_NAME
 rm -rf $ZIP_NAME
 
 echo -e "\t------------------------------------------
-\t| gnome-lockscreen-extension is installed |
+\t| lockscreen-extension is installed |
 \t------------------------------------------
 
 \tNow please enable the extension, once extension is enabled then

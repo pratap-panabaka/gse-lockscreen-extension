@@ -5,7 +5,7 @@ This extension is a improvment of [Control Blur Effect on Lock Screen](https://g
 - You can set different background images/colors for each monitor upto four monitors.
 
 > [!NOTE]
-> Currently it is tested on Arch Linux and Ubuntu 24.10
+> Currently it is tested on Arch Linux and Ubuntu 24.04 and 24.10
 
 ### Install
 ```
