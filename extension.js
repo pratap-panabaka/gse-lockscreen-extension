@@ -95,7 +95,6 @@ export default class LockscreenExtension extends Extension {
     }
 
     _onChangesFromGDMScreen() {
-
         if (Main.screenShield._dialog) {
             Main.screenShield._dialog._updateBackgrounds();
         }
@@ -185,6 +184,10 @@ export default class LockscreenExtension extends Extension {
     }
 
     disable() {
+        // This extension runs only on ["unlock-dialog"] session mode.
+        // This extension purpose is to configure gnome-lockscreen for background and colors.
+        // User can hide the extension indicator once he configure the background and thus there will not be any UI on lock screen.
+
         this._injectionManager.clear(); // clear override method
         this._injectionManager = null;
 
