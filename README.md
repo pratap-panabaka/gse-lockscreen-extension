@@ -1,7 +1,7 @@
 ### Gnome Lockscreen Extension (GNOME V45 and above)
 
 This extension is a improvment of [Control Blur Effect on Lock Screen](https://github.com/PRATAP-KUMAR/control-blur-effect-on-lockscreen) extension.
-- With this (gnome-lockscreen-extension) you can control blur effect and also set background images or colors in real time.
+- With this (lockscreen-extension) you can control blur effect and also set background images or colors in real time.
 - You can set different background images/colors for each monitor upto four monitors.
 
 > [!NOTE]
@@ -9,8 +9,8 @@ This extension is a improvment of [Control Blur Effect on Lock Screen](https://g
 
 ### Install
 ```
-git clone https://github.com/PRATAP-KUMAR/gnome-lockscreen-extension
-cd gnome-lockscreen-extension
+git clone https://github.com/PRATAP-KUMAR/lockscreen-extension
+cd lockscreen-extension
 ./install.sh
 ```
 
@@ -19,7 +19,7 @@ cd gnome-lockscreen-extension
 >
 > ```
 > cd
-> gsettings --schemadir .local/share/gnome-shell/extensions/gnome-lockscreen-extension@pratap.fastmail.fm/schemas set org.gnome.shell.extensions.gnome-lockscreen-extension hide-gnome-lockscreen-extension-icon false
+> gsettings --schemadir .local/share/gnome-shell/extensions/lockscreen-extension@pratap.fastmail.fm/schemas set org.gnome.shell.extensions.lockscreen-extension hide-lockscreen-extension-icon false
 > ```
 
 ### Uninstall

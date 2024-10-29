@@ -1,7 +1,7 @@
 #! /bin/bash
 set -e
 
-NAME=gnome-lockscreen-extension
+NAME=lockscreen-extension
 DOMAIN=pratap.fastmail.fm
 UUID=$NAME@$DOMAIN
 ZIP_NAME=$UUID.zip

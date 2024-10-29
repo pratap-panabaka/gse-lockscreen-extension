@@ -33,7 +33,7 @@ const openModal = (extension) => {
     const modal = new ConfirmDialog(confirmDialog);
 
     modal.connect('proceed', () => {
-        settings.set_boolean('hide-gnome-lockscreen-extension-icon', true);
+        settings.set_boolean('hide-lockscreen-extension-icon', true);
     });
 
     modal.open();

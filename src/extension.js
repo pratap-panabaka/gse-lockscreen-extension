@@ -141,7 +141,7 @@ export default class LockscreenExtension extends Extension {
             nMonitors -= 1;
         }
 
-        let key = "hide-gnome-lockscreen-extension-icon";
+        let key = "hide-lockscreen-extension-icon";
         this[`_${key}_changedId`] = this._settings.connect(`changed::${key}`, this._onVisibilityChange.bind(this));
     }
 
@@ -156,7 +156,7 @@ export default class LockscreenExtension extends Extension {
     }
 
     _onVisibilityChange() {
-        if (this._settings.get_boolean('hide-gnome-lockscreen-extension-icon'))
+        if (this._settings.get_boolean('hide-lockscreen-extension-icon'))
             this._indicator.hide();
         else
             this._indicator.show();
