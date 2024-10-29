@@ -22,7 +22,7 @@ echo -e "\t1. gnome-shell version $SHELL_VERSION detected"
 if [[ $SHELL_VERSION -le 44 ]];then
   cd src/v-42-43-44
 else
-  cd src/45-46-47
+  cd src/v-45-46-47
 fi
 
 echo -e "\t2. Creating zip file..."
