@@ -9,11 +9,11 @@ ZIP_NAME=$UUID.zip
 echo -e "\n\n\t~~~~~~~~~~~~~~~~ gnome-lockscreen-extension ~~~~~~~~~~~~~~~~\n"
 echo -e "\trunning the script...\n"
 
-if [[ -z $(gnome-extensions list | grep $ZIP_NAME) ]]; then
-    echo "extension is not installed"
-    exit 1
+if $(gnome-extensions list | grep -q $UUID); then
+    gnome-extensions uninstall $UUID
 else
-    gnome-extensions uninstall $ZIP_NAME
+    echo -e "\textension is not installed"
+    exit 1
 fi
 
 echo -e "\t------------------------------------------
