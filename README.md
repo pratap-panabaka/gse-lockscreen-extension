@@ -5,7 +5,7 @@ This extension is a improvment of [Control Blur Effect on Lock Screen](https://g
 - You can set different background images/colors for each monitor upto four monitors.
 
 > [!NOTE]
-> Currently it is tested on Arch Linux and Ubuntu 24.04 and 24.10
+> Currently it is tested on Arch Linux and Ubuntu 22.04, 24.04, 24.10
 
 ### Install
 ```
@@ -30,7 +30,6 @@ cd lockscreen-extension
 ![gnome-lockscreen-extension](https://github.com/user-attachments/assets/71c1d659-bcb0-4367-b8a8-95e54f5f6740)
 
 ![gnome-lockscreen-extension](https://github.com/user-attachments/assets/3bcc1bb7-bd6f-41b3-b26e-58dc37f40ecc)
-
 
 <hr/>
 
