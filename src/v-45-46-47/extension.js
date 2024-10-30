@@ -22,7 +22,7 @@ import Shell from 'gi://Shell';
 
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import { Extension, InjectionManager } from 'resource:///org/gnome/shell/extensions/extension.js';
-import GnomeLockscreenExtension from './gnomeLockscreenExtension.js';
+import LockscreenExt from './lockscreenExt.js';
 import getUserBackground from './utils/getUserBackground.js';
 
 export default class LockscreenExtension extends Extension {
@@ -57,7 +57,7 @@ export default class LockscreenExtension extends Extension {
                     let blurBrightness = this._settings.get_double(`blur-brightness-${n}`);
 
                     let blurEffect = {
-                        name: 'gnome-lockscreen-extension-blur',
+                        name: 'lockscreen-extension-blur',
                         radius: blurRadius * themeContext.scale_factor,
                         brightness: blurBrightness
                     };
@@ -164,7 +164,7 @@ export default class LockscreenExtension extends Extension {
 
     _addIndicator() {
         if (this._indicator === null) {
-            this._indicator = new GnomeLockscreenExtension(this._settings); // Gnome Lockscreen Extension button
+            this._indicator = new LockscreenExt(this._settings); // Gnome Lockscreen Extension button
             Main.panel.addToStatusArea(this.uuid, this._indicator, 0, 'left'); // Added to panel left
         }
     }

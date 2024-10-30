@@ -4,7 +4,6 @@ set -e
 NAME=lockscreen-extension
 DOMAIN=pratap.fastmail.fm
 UUID=$NAME@$DOMAIN
-ZIP_NAME=$UUID.zip
 
 echo -e "\n\n\t~~~~~~~~~~~~~~~~ lockscreen-extension ~~~~~~~~~~~~~~~~\n"
 echo -e "\trunning the script...\n"

@@ -9,8 +9,8 @@ import subMenuMonitorBackgrounds from './menus/subMenuMonitorBackgrounds.js';
 
 import hideExtensionButton from './buttons/hideExtensionButton.js';
 
-const GnomeLockscreenExtension = GObject.registerClass(
-    class GnomeLockscreenExtension extends PanelMenu.Button {
+const LockscreenExt = GObject.registerClass(
+    class LockscreenExt extends PanelMenu.Button {
         _init(settings) {
             super._init(0.0, 'Gnome Lockscreen Settings Icon Indicator');
             this._settings = settings;
@@ -23,7 +23,7 @@ const GnomeLockscreenExtension = GObject.registerClass(
                 style_class: 'system-status-icon',
             }));
 
-            this._customLabel = "Gnome Lockscreen Extension";
+            this._customLabel = "Lockscreen Extension";
             this._box.add_child(new St.Label({ text: this._customLabel, y_align: Clutter.ActorAlign.CENTER }));
 
             this._subMenuMonitorBackgrounds();  // Monitor background settings
@@ -46,4 +46,4 @@ const GnomeLockscreenExtension = GObject.registerClass(
     }
 );
 
-export default GnomeLockscreenExtension;
+export default LockscreenExt;
