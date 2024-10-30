@@ -12,44 +12,44 @@ import GNOME_SHELL_VERSION from '../utils/shellVersion.js';
 
 import GetBackgrounds from '../getNamesAsync/getBackgrounds.js';
 
-const subMenuMonitorBackgrounds = (lockScreenExtension, n) => {
-    lockScreenExtension._subMenuMenuItemMonitorBackground = new PopupMenu.PopupSubMenuMenuItem(`Monitor - ${n}`, false);
-    createBackgroundPrefs(lockScreenExtension, n);
-    setBackgrounds(lockScreenExtension, n);
+const subMenuMonitorBackgrounds = (lockscreenExt, n) => {
+    lockscreenExt._subMenuMenuItemMonitorBackground = new PopupMenu.PopupSubMenuMenuItem(`Monitor - ${n}`, false);
+    createBackgroundPrefs(lockscreenExt, n);
+    setBackgrounds(lockscreenExt, n);
 
-    return lockScreenExtension._subMenuMenuItemMonitorBackground;
+    return lockscreenExt._subMenuMenuItemMonitorBackground;
 }
 
 let menuItem = null;
 
-const createBackgroundPrefs = (lockScreenExtension, n) => {
-    lockScreenExtension._subMenuMenuItemMonitorBackground.menu.box.add_child(createActor(lockScreenExtension._settings, 'Background Color/Gradient Start Color', '#123456', `background-color-${n}`, 'primary', 'Must be a valid color'));
-    lockScreenExtension._subMenuMenuItemMonitorBackground.menu.box.add_child(createActor(lockScreenExtension._settings, 'Gradient End Color', '#456789', `background-gradient-end-color-${n}`, 'secondary', 'Must be a valid color or same as above color'));
+const createBackgroundPrefs = (lockscreenExt, n) => {
+    lockscreenExt._subMenuMenuItemMonitorBackground.menu.box.add_child(createActor(lockscreenExt._settings, 'Background Color/Gradient Start Color', '#123456', `background-color-${n}`, 'primary', 'Must be a valid color'));
+    lockscreenExt._subMenuMenuItemMonitorBackground.menu.box.add_child(createActor(lockscreenExt._settings, 'Gradient End Color', '#456789', `background-gradient-end-color-${n}`, 'secondary', 'Must be a valid color or same as above color'));
 
-    lockScreenExtension._catchGradientDirection = [];
-    const gradientDirectionMenuItem = createMenuItem('Gradient Direction', ['none', 'horizontal', 'vertical'], lockScreenExtension._settings, `background-gradient-direction-${n}`, lockScreenExtension._catchGradientDirection)
-    lockScreenExtension._subMenuMenuItemMonitorBackground.menu.box.add_child(gradientDirectionMenuItem);
+    lockscreenExt._catchGradientDirection = [];
+    const gradientDirectionMenuItem = createMenuItem('Gradient Direction', ['none', 'horizontal', 'vertical'], lockscreenExt._settings, `background-gradient-direction-${n}`, lockscreenExt._catchGradientDirection)
+    lockscreenExt._subMenuMenuItemMonitorBackground.menu.box.add_child(gradientDirectionMenuItem);
 
-    const backgroundSizeMenuItem = createMenuItem('Background size', ['center', 'cover', 'contain'], lockScreenExtension._settings, `background-size-${n}`);
-    lockScreenExtension._subMenuMenuItemMonitorBackground.menu.box.add_child(backgroundSizeMenuItem);
+    const backgroundSizeMenuItem = createMenuItem('Background size', ['center', 'cover', 'contain'], lockscreenExt._settings, `background-size-${n}`);
+    lockscreenExt._subMenuMenuItemMonitorBackground.menu.box.add_child(backgroundSizeMenuItem);
 
     // Blur Radius
     menuItem = new PopupMenu.PopupBaseMenuItem();
     menuItem.add_child(new St.Label({ text: 'Blur Radius 0 to 100', y_align: Clutter.ActorAlign.CENTER }));
-    lockScreenExtension._subMenuMenuItemMonitorBackground.menu.box.add_child(menuItem);
-    lockScreenExtension._subMenuMenuItemMonitorBackground.menu.box.add_child(new Slider(lockScreenExtension._settings, `blur-radius-${n}`));
+    lockscreenExt._subMenuMenuItemMonitorBackground.menu.box.add_child(menuItem);
+    lockscreenExt._subMenuMenuItemMonitorBackground.menu.box.add_child(new Slider(lockscreenExt._settings, `blur-radius-${n}`));
     //
 
     // Blur Brightness
     menuItem = new PopupMenu.PopupBaseMenuItem();
     menuItem.add_child(new St.Label({ text: 'Blur Brightness 0 to 1 (Only applicable if Blur Radius is > 0)', y_align: Clutter.ActorAlign.CENTER }));
-    lockScreenExtension._subMenuMenuItemMonitorBackground.menu.box.add_child(menuItem);
-    lockScreenExtension._subMenuMenuItemMonitorBackground.menu.box.add_child(new Slider(lockScreenExtension._settings, `blur-brightness-${n}`));
+    lockscreenExt._subMenuMenuItemMonitorBackground.menu.box.add_child(menuItem);
+    lockscreenExt._subMenuMenuItemMonitorBackground.menu.box.add_child(new Slider(lockscreenExt._settings, `blur-brightness-${n}`));
     //
 }
 
-const setBackgrounds = async (lockScreenExtension, n) => {
-    const item = lockScreenExtension._subMenuMenuItemMonitorBackground;
+const setBackgrounds = async (lockscreenExt, n) => {
+    const item = lockscreenExt._subMenuMenuItemMonitorBackground;
 
     menuItem = new PopupMenu.PopupBaseMenuItem();
     menuItem.add_child(new St.Label({ text: 'Backgrounds', y_align: Clutter.ActorAlign.CENTER }));
@@ -80,9 +80,9 @@ const setBackgrounds = async (lockScreenExtension, n) => {
             AnimationUtils.ensureActorVisibleInScrollView(scrollView, userBackgroundItem);
         });
         userBackgroundItem.connect('activate', () => {
-            lockScreenExtension._settings.set_boolean(`user-background-${n}`, true);
-            lockScreenExtension._settings.set_string(`background-gradient-direction-${n}`, 'none');
-            updateOrnament(lockScreenExtension._catchGradientDirection, 'none');
+            lockscreenExt._settings.set_boolean(`user-background-${n}`, true);
+            lockscreenExt._settings.set_string(`background-gradient-direction-${n}`, 'none');
+            updateOrnament(lockscreenExt._catchGradientDirection, 'none');
             updateOrnament(backgroundItems, 'Use Systems');
         });
         section.addMenuItem(userBackgroundItem);
@@ -99,11 +99,11 @@ const setBackgrounds = async (lockScreenExtension, n) => {
             });
 
             backgroundNameItem.connect('activate', () => {
-                lockScreenExtension._settings.set_boolean(`user-background-${n}`, false);
-                lockScreenExtension._settings.set_string(`background-image-path-${n}`, backgroundName);
-                lockScreenExtension._settings.set_string(`background-gradient-direction-${n}`, 'none')
+                lockscreenExt._settings.set_boolean(`user-background-${n}`, false);
+                lockscreenExt._settings.set_string(`background-image-path-${n}`, backgroundName);
+                lockscreenExt._settings.set_string(`background-gradient-direction-${n}`, 'none')
                 updateOrnament(backgroundItems, backgroundName);
-                updateOrnament(lockScreenExtension._catchGradientDirection, 'none');
+                updateOrnament(lockscreenExt._catchGradientDirection, 'none');
             });
         });
 
@@ -111,8 +111,8 @@ const setBackgrounds = async (lockScreenExtension, n) => {
     };
 
     const backgroundItems = collectBackgrounds(BACKGROUNDS);
-    const text = lockScreenExtension._settings.get_string(`background-image-path-${n}`);
-    const userBackground = lockScreenExtension._settings.get_boolean(`user-background-${n}`);
+    const text = lockscreenExt._settings.get_string(`background-image-path-${n}`);
+    const userBackground = lockscreenExt._settings.get_boolean(`user-background-${n}`);
     updateOrnament(backgroundItems, userBackground ? "Use Systems" : text);
 }
 

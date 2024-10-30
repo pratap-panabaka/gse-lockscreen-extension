@@ -3,11 +3,11 @@ import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
 
 import ConfirmDialog from "../utils/confirmDialog.js";
 
-const hideExtensionButton = (gnomeLockscreenExtension) => {
-    gnomeLockscreenExtension._hideExtensionButton = new PopupMenu.PopupMenuItem('Hide lockscreen-extension icon');
-    gnomeLockscreenExtension._hideExtensionButton.connect('activate', () => openModal(gnomeLockscreenExtension));
+const hideExtensionButton = (lockscreenExt) => {
+    lockscreenExt._hideExtensionButton = new PopupMenu.PopupMenuItem('Hide lockscreen-extension icon');
+    lockscreenExt._hideExtensionButton.connect('activate', () => openModal(lockscreenExt));
 
-    return gnomeLockscreenExtension._hideExtensionButton;
+    return lockscreenExt._hideExtensionButton;
 }
 
 const confirmDialog = {

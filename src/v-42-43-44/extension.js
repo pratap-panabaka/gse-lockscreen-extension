@@ -23,7 +23,7 @@ const UnlockDialog = imports.ui.unlockDialog;
 const ExtensionUtils = imports.misc.extensionUtils;
 const Me = ExtensionUtils.getCurrentExtension();
 
-const { GnomeLockscreenExtension } = Me.imports.gnomeLockscreenExtension;
+const { LockscreenExt } = Me.imports.lockscreenExt;
 const { getUserBackground } = Me.imports.utils.getUserBackground;
 
 let native = UnlockDialog.UnlockDialog.prototype._createBackground;
@@ -55,6 +55,7 @@ class LockscreenExtension {
         }
     }
 
+    // overriding _createBackground method
     _override(monitorIndex) {
         const n = monitorIndex + 1;
         const settings = ExtensionUtils.getSettings();
@@ -165,7 +166,7 @@ class LockscreenExtension {
 
     _addIndicator() {
         if (this._indicator === null) {
-            this._indicator = new GnomeLockscreenExtension(); // Gnome Lockscreen Extension button
+            this._indicator = new LockscreenExt(); // Gnome Lockscreen Extension button
             Main.panel.addToStatusArea(this.uuid, this._indicator, 0, 'left'); // Added to panel left
         }
     }
@@ -191,6 +192,7 @@ class LockscreenExtension {
 
         this._disconnectSignals(); // disconnect signals
         this._removeIndicator(); // gnome-lockscreen-extension destroy and nullify
+        this._settings = null;
         UnlockDialog.UnlockDialog.prototype._createBackground = native;
     }
 }

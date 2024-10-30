@@ -6,11 +6,11 @@ const Me = ExtensionUtils.getCurrentExtension();
 
 const { ConfirmDialog } = Me.imports.utils.confirmDialog;
 
-var hideExtensionButton = (gnomeLockscreenExtension) => {
-    gnomeLockscreenExtension._hideExtensionButton = new PopupMenu.PopupMenuItem('Hide gnome-lockscreen-extension icon');
-    gnomeLockscreenExtension._hideExtensionButton.connect('activate', () => openModal(gnomeLockscreenExtension));
+var hideExtensionButton = (lockscreenExt) => {
+    lockscreenExt._hideExtensionButton = new PopupMenu.PopupMenuItem('Hide gnome-lockscreen-extension icon');
+    lockscreenExt._hideExtensionButton.connect('activate', () => openModal(lockscreenExt));
 
-    return gnomeLockscreenExtension._hideExtensionButton;
+    return lockscreenExt._hideExtensionButton;
 }
 
 const confirmDialog = {

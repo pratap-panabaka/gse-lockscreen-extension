@@ -12,7 +12,7 @@ import hideExtensionButton from './buttons/hideExtensionButton.js';
 const LockscreenExt = GObject.registerClass(
     class LockscreenExt extends PanelMenu.Button {
         _init(settings) {
-            super._init(0.0, 'Gnome Lockscreen Settings Icon Indicator');
+            super._init(0.0, 'Lockscreen Settings Icon Indicator');
             this._settings = settings;
 
             this._box = new St.BoxLayout();
