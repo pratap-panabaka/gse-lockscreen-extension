@@ -36,15 +36,15 @@ const createBackgroundPrefs = (lockscreenExt, n) => {
     // Blur Radius
     menuItem = new PopupMenu.PopupBaseMenuItem();
     menuItem.add_child(new St.Label({ text: 'Blur Radius 0 to 100', y_align: Clutter.ActorAlign.CENTER }));
+    menuItem.add_child(new Slider(lockscreenExt._settings, `blur-radius-${n}`));
     lockscreenExt._subMenuMenuItemMonitorBackground.menu.box.add_child(menuItem);
-    lockscreenExt._subMenuMenuItemMonitorBackground.menu.box.add_child(new Slider(lockscreenExt._settings, `blur-radius-${n}`));
     //
 
     // Blur Brightness
     menuItem = new PopupMenu.PopupBaseMenuItem();
-    menuItem.add_child(new St.Label({ text: 'Blur Brightness 0 to 1 (Only applicable if Blur Radius is > 0)', y_align: Clutter.ActorAlign.CENTER }));
+    menuItem.add_child(new St.Label({ text: 'Blur Brightness 0 to 1', y_align: Clutter.ActorAlign.CENTER }));
+    menuItem.add_child(new Slider(lockscreenExt._settings, `blur-brightness-${n}`));
     lockscreenExt._subMenuMenuItemMonitorBackground.menu.box.add_child(menuItem);
-    lockscreenExt._subMenuMenuItemMonitorBackground.menu.box.add_child(new Slider(lockscreenExt._settings, `blur-brightness-${n}`));
     //
 }
 
@@ -73,7 +73,6 @@ const setBackgrounds = async (lockscreenExt, n) => {
 
         // Add System Background Item
         const userBackgroundItem = new PopupMenu.PopupMenuItem('Use Systems');
-        userBackgroundItem.label.set_style("background: green; padding: 8px; font-weight: bold");
         _items.push(userBackgroundItem);
 
         userBackgroundItem.connect('key-focus-in', () => {

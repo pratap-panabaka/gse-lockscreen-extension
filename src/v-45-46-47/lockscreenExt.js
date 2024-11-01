@@ -23,8 +23,7 @@ const LockscreenExt = GObject.registerClass(
                 style_class: 'system-status-icon',
             }));
 
-            this._customLabel = "Lockscreen Extension";
-            this._box.add_child(new St.Label({ text: this._customLabel, y_align: Clutter.ActorAlign.CENTER }));
+            this._box.add_child(new St.Label({ text: "lockscreen-extension", y_align: Clutter.ActorAlign.CENTER }));
 
             this._subMenuMonitorBackgrounds();  // Monitor background settings
 
