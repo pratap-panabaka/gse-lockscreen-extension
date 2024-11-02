@@ -11,8 +11,10 @@ const { hideExtensionButton } = Me.imports.buttons.hideExtensionButton;
 
 var LockscreenExt = GObject.registerClass(
     class LockscreenExt extends PanelMenu.Button {
-        _init() {
+        _init(settings) {
             super._init(0.0, 'lockscreen-extension indicator');
+
+            this._settings = settings;
 
             this._box = new St.BoxLayout();
             this.add_child(this._box);

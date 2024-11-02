@@ -57,6 +57,7 @@ class LockscreenExtension {
 
     // overriding _createBackground method
     _override(monitorIndex) {
+
         const settings = ExtensionUtils.getSettings();
 
         const n = monitorIndex + 1;
@@ -167,7 +168,7 @@ class LockscreenExtension {
 
     _addIndicator() {
         if (this._indicator === null) {
-            this._indicator = new LockscreenExt(); // Gnome Lockscreen Extension button
+            this._indicator = new LockscreenExt(this._settings); // Gnome Lockscreen Extension button
             Main.panel.addToStatusArea(this.uuid, this._indicator, 0, 'left'); // Added to panel left
         }
     }
