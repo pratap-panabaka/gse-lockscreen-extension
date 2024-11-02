@@ -57,15 +57,16 @@ class LockscreenExtension {
 
     // overriding _createBackground method
     _override(monitorIndex) {
-        const n = monitorIndex + 1;
         const settings = ExtensionUtils.getSettings();
+
+        const n = monitorIndex + 1;
         let themeContext = St.ThemeContext.get_for_stage(global.stage);
 
         let blurSigma = settings.get_int(`blur-sigma-${n}`);
         let blurBrightness = settings.get_double(`blur-brightness-${n}`);
 
         let blurEffect = {
-            name: 'gnome-lockscreen-extension-blur',
+            name: 'lockscreen-extension-blur',
             sigma: blurSigma * themeContext.scale_factor,
             brightness: blurBrightness
         };
@@ -79,13 +80,13 @@ class LockscreenExtension {
 
         let widget = new St.Widget({
             style: `
-                        background-color: ${settings.get_string(`background-color-${n}`)};
-                        background-gradient-direction: ${settings.get_string(`background-gradient-direction-${n}`)};
-                        background-gradient-start: ${settings.get_string(`background-color-${n}`)};
-                        background-gradient-end: ${settings.get_string(`background-gradient-end-color-${n}`)};
-                        background-image: ${isPathExists ? `url(${imagePath})` : 'none'};
-                        background-size: ${settings.get_string(`background-size-${n}`)};
-                        `,
+            background-color: ${settings.get_string(`background-color-${n}`)};
+            background-gradient-direction: ${settings.get_string(`background-gradient-direction-${n}`)};
+            background-gradient-start: ${settings.get_string(`background-color-${n}`)};
+            background-gradient-end: ${settings.get_string(`background-gradient-end-color-${n}`)};
+            background-image: ${isPathExists ? `url(${imagePath})` : 'none'};
+            background-size: ${settings.get_string(`background-size-${n}`)};
+            `,
             x: monitor.x,
             y: monitor.y,
             width: monitor.width,
@@ -143,7 +144,7 @@ class LockscreenExtension {
             nMonitors -= 1;
         }
 
-        let key = "hide-lockscreen-extension-icon";
+        let key = "hide-lockscreen-extension-button";
         this[`_${key}_changedId`] = this._settings.connect(`changed::${key}`, this._onVisibilityChange.bind(this));
     }
 
@@ -158,7 +159,7 @@ class LockscreenExtension {
     }
 
     _onVisibilityChange() {
-        if (this._settings.get_boolean('hide-lockscreen-extension-icon'))
+        if (this._settings.get_boolean('hide-lockscreen-extension-button'))
             this._indicator.hide();
         else
             this._indicator.show();

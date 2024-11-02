@@ -26,9 +26,8 @@ var createActor = (settings, label, hintText, key, value, permenentHint = null) 
     if (permenentHint)
         menuItem.add_child(new St.Label({ text: permenentHint, y_align: Clutter.ActorAlign.CENTER }));
 
-    const useSystem = new PopupMenu.PopupMenuItem('Use Systems');
-    useSystem.set_style("font-weight: bold; background-color: green");
-    useSystem.connect('activate', () => {
+    const useSystem = new St.Button({label: 'Use Systems', style_class: "button"});
+    useSystem.connect('clicked', () => {
         let systemColor = new Gio.Settings({ schema_id: 'org.gnome.desktop.background' }).get_string(`${value === "primary" ? "primary-color" : "secondary-color"}`);
         settings.set_string(key, systemColor);
         inputText.text = systemColor;

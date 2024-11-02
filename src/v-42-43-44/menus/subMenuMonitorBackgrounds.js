@@ -1,4 +1,4 @@
-const { Gio, St, Clutter } = imports.gi;
+const { St, Clutter } = imports.gi;
 const PopupMenu = imports.ui.popupMenu;
 
 const ExtensionUtils = imports.misc.extensionUtils;
@@ -8,6 +8,7 @@ const { updateOrnament } = Me.imports.utils.updateOrnament;
 const { createActor } = Me.imports.utils.createActor;
 const { createMenuItem } = Me.imports.utils.createMenuItem;
 const { Sliding } = Me.imports.utils.sliding;
+
 const { GetBackgrounds } = Me.imports.getNamesAsync.getBackgrounds;
 
 var subMenuMonitorBackgrounds = (lockscreenExt, n) => {
@@ -34,15 +35,15 @@ const createBackgroundPrefs = (lockscreenExt, n) => {
     // Blur Sigma
     menuItem = new PopupMenu.PopupBaseMenuItem();
     menuItem.add_child(new St.Label({ text: 'Blur Sigma 0 to 100', y_align: Clutter.ActorAlign.CENTER }));
+    menuItem.add_child(new Sliding(ExtensionUtils.getSettings(), `blur-sigma-${n}`));
     lockscreenExt._subMenuMenuItemMonitorBackground.menu.box.add_child(menuItem);
-    lockscreenExt._subMenuMenuItemMonitorBackground.menu.box.add_child(new Sliding(ExtensionUtils.getSettings(), `blur-sigma-${n}`));
     //
 
     // Blur Brightness
     menuItem = new PopupMenu.PopupBaseMenuItem();
-    menuItem.add_child(new St.Label({ text: 'Blur Brightness 0 to 1 (Only applicable if Blur Radius is > 0)', y_align: Clutter.ActorAlign.CENTER }));
+    menuItem.add_child(new St.Label({ text: 'Blur Brightness 0 to 1', y_align: Clutter.ActorAlign.CENTER }));
+    menuItem.add_child(new Sliding(ExtensionUtils.getSettings(), `blur-brightness-${n}`));
     lockscreenExt._subMenuMenuItemMonitorBackground.menu.box.add_child(menuItem);
-    lockscreenExt._subMenuMenuItemMonitorBackground.menu.box.add_child(new Sliding(ExtensionUtils.getSettings(), `blur-brightness-${n}`));
     //
 }
 
@@ -64,11 +65,10 @@ const setBackgrounds = async (lockscreenExt, n) => {
     const BACKGROUNDS = await object._collectBackgrounds();
 
     const collectBackgrounds = backgrounds => {
-        let _items = [new PopupMenu.PopupMenuItem('some'), new PopupMenu.PopupMenuItem('some')];
+        let _items = [];
 
         // Add System Background Item
         const userBackgroundItem = new PopupMenu.PopupMenuItem('Use Systems');
-        userBackgroundItem.label.set_style("background: green; padding: 8px; font-weight: bold");
         _items.push(userBackgroundItem);
 
         userBackgroundItem.connect('activate', () => {

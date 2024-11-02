@@ -1,19 +1,19 @@
 {
-  "description": "Customize GNOME's Lockscreen",
-  "donations": {
-    "buymeacoffee": "pratappanabaka"
-  },
   "name": "Lockscreen Extension",
+  "description": "Customize GNOME's Lockscreen",
+  "uuid": "lockscreen-extension@pratap.fastmail.fm",
+  "settings-schema": "org.gnome.shell.extensions.lockscreen-extension",
+  "session-modes": [
+    "unlock-dialog"
+  ],
   "shell-version": [
     "42",
     "43",
     "44"
   ],
-  "session-modes": [
-    "unlock-dialog"
-  ],
   "url": "https://github.com/PRATAP-KUMAR/lockscreen-extension",
-  "settings-schema": "org.gnome.shell.extensions.lockscreen-extension",
-  "uuid": "lockscreen-extension@pratap.fastmail.fm",
-  "version": 1
+  "donations": {
+    "buymeacoffee": "pratappanabaka"
+  },
+  "version": 2
 }

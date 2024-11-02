@@ -1,4 +1,4 @@
-const { Clutter } = imports.gi;
+const { Clutter, St } = imports.gi;
 const PopupMenu = imports.ui.popupMenu;
 
 const ExtensionUtils = imports.misc.extensionUtils;
@@ -7,15 +7,17 @@ const Me = ExtensionUtils.getCurrentExtension();
 const { ConfirmDialog } = Me.imports.utils.confirmDialog;
 
 var hideExtensionButton = (lockscreenExt) => {
-    lockscreenExt._hideExtensionButton = new PopupMenu.PopupMenuItem('Hide gnome-lockscreen-extension icon');
-    lockscreenExt._hideExtensionButton.connect('activate', () => openModal(lockscreenExt));
+    lockscreenExt._hideExtensionButton = new PopupMenu.PopupBaseMenuItem();
+    let hideButton = new St.Button({ label: 'Hide lockscreen-extension button', style_class: "button", x_align: Clutter.ActorAlign.CENTER, x_expand: true });
+    hideButton.connect('clicked', () => openModal(lockscreenExt));
+    lockscreenExt._hideExtensionButton.add_child(hideButton)
 
     return lockscreenExt._hideExtensionButton;
 }
 
 const confirmDialog = {
-    subject: ('title', 'Hide gnome-lockscreen-extension Icon?'),
-    description: `Are you sure to hide the gnome-lockscreen-extension icon? To show the icon back, please refere to the gsettings command provided in the README of github repository.
+    subject: ('title', 'Hide lockscreen-extension button?'),
+    description: `Are you sure to hide the lockscreen-extension button? To show the button back, please refere to the gsettings command provided in the README of github repository.
     `,
     confirmButtons: [
         {
@@ -36,7 +38,7 @@ const openModal = (extension) => {
     const modal = new ConfirmDialog(confirmDialog);
 
     modal.connect('proceed', () => {
-        settings.set_boolean('hide-lockscreen-extension-icon', true);
+        settings.set_boolean('hide-lockscreen-extension-button', true);
     });
 
     modal.open();

@@ -6,13 +6,12 @@ import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js';
 
 import subMenuMonitorBackgrounds from './menus/subMenuMonitorBackgrounds.js';
-
 import hideExtensionButton from './buttons/hideExtensionButton.js';
 
 const LockscreenExt = GObject.registerClass(
     class LockscreenExt extends PanelMenu.Button {
         _init(settings) {
-            super._init(0.0, 'Lockscreen Settings Icon Indicator');
+            super._init(0.0, 'lockscreen-extension indicator');
             this._settings = settings;
 
             this._box = new St.BoxLayout();

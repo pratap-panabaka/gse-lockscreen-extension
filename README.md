@@ -15,10 +15,10 @@ cd lockscreen-extension
 ```
 
 > [!TIP]
-> After you hide the extension icon from the lockscreen, to show it back, run below command
+> After you hide the extension button from the lockscreen, to show it back, run below command
 >
 > ```
-> gsettings --schemadir $HOME/.local/share/gnome-shell/extensions/lockscreen-extension@pratap.fastmail.fm/schemas set org.gnome.shell.extensions.lockscreen-extension hide-lockscreen-extension-icon false
+> gsettings --schemadir $HOME/.local/share/gnome-shell/extensions/lockscreen-extension@pratap.fastmail.fm/schemas set org.gnome.shell.extensions.lockscreen-extension hide-lockscreen-extension-button false
 > ```
 
 ### Uninstall

@@ -6,13 +6,13 @@ const PanelMenu = imports.ui.panelMenu;
 const ExtensionUtils = imports.misc.extensionUtils;
 const Me = ExtensionUtils.getCurrentExtension();
 
-const { hideExtensionButton } = Me.imports.buttons.hideExtensionButton;
 const { subMenuMonitorBackgrounds } = Me.imports.menus.subMenuMonitorBackgrounds;
+const { hideExtensionButton } = Me.imports.buttons.hideExtensionButton;
 
 var LockscreenExt = GObject.registerClass(
     class LockscreenExt extends PanelMenu.Button {
         _init() {
-            super._init(0.0, 'Lockscreen Settings Icon Indicator');
+            super._init(0.0, 'lockscreen-extension indicator');
 
             this._box = new St.BoxLayout();
             this.add_child(this._box);
@@ -22,8 +22,7 @@ var LockscreenExt = GObject.registerClass(
                 style_class: 'system-status-icon',
             }));
 
-            this._customLabel = "Lockscreen Extension";
-            this._box.add_child(new St.Label({ text: this._customLabel, y_align: Clutter.ActorAlign.CENTER }));
+            this._box.add_child(new St.Label({ text: "lockscreen-extension", y_align: Clutter.ActorAlign.CENTER }));
 
             this._subMenuMonitorBackgrounds();  // Monitor background settings
 

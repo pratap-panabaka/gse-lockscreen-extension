@@ -201,7 +201,7 @@
             <description>Description</description>
         </key>
 
-        <key name="hide-lockscreen-extension-icon" type="b">
+        <key name="hide-lockscreen-extension-button" type="b">
             <default>false</default>
             <summary>Summary</summary>
             <description>Description</description>
