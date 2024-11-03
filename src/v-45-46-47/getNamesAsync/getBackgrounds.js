@@ -5,7 +5,7 @@
 // -*- mode: js2; indent-tabs-mode: nil; js2-basic-offset: 4 -*-
 
 // we use async/await here to not block the mainloop, not to parallelize
- 
+
 
 // source code: https://extensions.gnome.org/extension/19/user-themes/
 // Below code is tweaked by PRATAP PANABAKA <pratap@fastmail.fm>
@@ -15,7 +15,7 @@ import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
 import { recursiveFileOperation, recursiveGetFileNamesCallback } from '../utils/recursiveFileOperation.js';
 
-const BACKGROUND_DIRECTORIES = [`${GLib.get_user_data_dir()}/backgrounds`, '/usr/local/share/backgrounds', '/usr/share/backgrounds'];
+const BACKGROUND_DIRECTORIES = [`${GLib.get_user_data_dir()}/backgrounds`, '/usr/share/gnome/backgrounds', '/usr/local/share/backgrounds', '/usr/share/backgrounds'];
 
 const GetBackgrounds = GObject.registerClass(
     class GetBackgrounds extends GObject.Object {
@@ -29,15 +29,19 @@ const GetBackgrounds = GObject.registerClass(
 
             const filtered = backgroundFileNames
                 .map(name => name.trim())
-                .filter(name =>
-                    name.endsWith('.jpg') ||
-                    name.endsWith('.jpeg') ||
-                    name.endsWith('.png') ||
-                    name.endsWith('.gif') ||
-                    name.endsWith('.JPG') ||
-                    name.endsWith('.JPEG') ||
-                    name.endsWith('.PNG') ||
-                    name.endsWith('GIF'));
+                .filter(
+                    name =>
+                        name.endsWith('.jpg') ||
+                        name.endsWith('.jpeg') ||
+                        name.endsWith('.png') ||
+                        name.endsWith('.gif') ||
+                        name.endsWith('.webp') ||
+                        name.endsWith('.JPG') ||
+                        name.endsWith('.JPEG') ||
+                        name.endsWith('.PNG') ||
+                        name.endsWith('.GIF') ||
+                        name.endsWith('.WEBP')
+                )
 
             return filtered;
         }
