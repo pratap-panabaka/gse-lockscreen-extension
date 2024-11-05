@@ -71,10 +71,10 @@ export default class LockscreenExtension extends Extension {
 
                     let widget = new St.Widget({
                         style: `
-                        background-color: ${this._settings.get_string(`background-color-${n}`)};
-                        background-gradient-direction: ${this._settings.get_string(`background-gradient-direction-${n}`)};
-                        background-gradient-start: ${this._settings.get_string(`background-color-${n}`)};
-                        background-gradient-end: ${this._settings.get_string(`background-gradient-end-color-${n}`)};
+                        background-color: ${this._settings.get_string(`primary-color-${n}`)};
+                        background-gradient-direction: ${this._settings.get_string(`gradient-direction-${n}`)};
+                        background-gradient-start: ${this._settings.get_string(`primary-color-${n}`)};
+                        background-gradient-end: ${this._settings.get_string(`secondary-color-${n}`)};
                         background-image: ${isPathExists ? `url(${imagePath})` : 'none'};
                         background-size: ${this._settings.get_string(`background-size-${n}`)};
                         `,
@@ -84,6 +84,8 @@ export default class LockscreenExtension extends Extension {
                         height: monitor.height,
                         effect: new Shell.BlurEffect(blurEffect),
                     });
+
+
 
                     Main.screenShield._dialog._backgroundGroup.add_child(widget);
                 }
@@ -102,9 +104,9 @@ export default class LockscreenExtension extends Extension {
 
     _callMonitorConnectionSettings(n) {
         [
-            `background-color-${n}`,
-            `background-gradient-direction-${n}`,
-            `background-gradient-end-color-${n}`,
+            `primary-color-${n}`,
+            `gradient-direction-${n}`,
+            `secondary-color-${n}`,
             `background-image-path-${n}`,
             `background-size-${n}`,
             `blur-radius-${n}`,

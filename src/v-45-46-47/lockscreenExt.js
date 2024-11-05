@@ -35,8 +35,8 @@ const LockscreenExt = GObject.registerClass(
             nMonitors = nMonitors > 4 ? 4 : nMonitors;
             let n = 1;
             while (nMonitors > 0) {
-                const generateMonitorBackgrounds = subMenuMonitorBackgrounds(this, n);
-                this.menu.addMenuItem(generateMonitorBackgrounds); // Add per Monitor background settings
+                const subMenu = subMenuMonitorBackgrounds(this, n);
+                this.menu.addMenuItem(subMenu); // Add per Monitor background settings
                 n += 1;
                 nMonitors -= 1;
             }
