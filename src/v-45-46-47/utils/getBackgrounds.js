@@ -6,9 +6,10 @@
 
 // we use async/await here to not block the mainloop, not to parallelize
 
-
 // source code: https://extensions.gnome.org/extension/19/user-themes/
 // Below code is tweaked by PRATAP PANABAKA <pratap@fastmail.fm>
+
+/* eslint-disable no-await-in-loop */
 
 import Gio from 'gi://Gio';
 import GLib from 'gi://GLib';

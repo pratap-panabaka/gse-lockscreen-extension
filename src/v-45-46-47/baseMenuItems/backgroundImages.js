@@ -19,16 +19,9 @@ const backgroundImages = async (lockscreenExt, n) => {
 const createBackgroundPathItems = (backgrounds, lockscreenExt, n) => {
     let items = [];
 
-
-
     // Add System Background Item
     let systemBackgroundItem = new PopupMenu.PopupMenuItem(systemBackground);
     items.push(systemBackgroundItem);
-
-    // systemBackgroundItem.connect('key-focus-in', () => {
-    //     AnimationUtils.ensureActorVisibleInScrollView(scrollView, systemBackgroundItem);
-    // });
-
 
     systemBackgroundItem.connect('activate', () => {
         lockscreenExt._settings.set_boolean(`user-background-${n}`, true);
@@ -37,15 +30,10 @@ const createBackgroundPathItems = (backgrounds, lockscreenExt, n) => {
         updateOrnament(lockscreenExt._catchGradientDirection, 'none');
     });
 
-
     //
     backgrounds.forEach(backgroundName => {
         const backgroundNameItem = new PopupMenu.PopupMenuItem(backgroundName);
         items.push(backgroundNameItem);
-
-        // backgroundNameItem.connect('key-focus-in', () => {
-        //     AnimationUtils.ensureActorVisibleInScrollView(scrollView, backgroundNameItem);
-        // });
 
         backgroundNameItem.connect('activate', () => {
             lockscreenExt._settings.set_boolean(`user-background-${n}`, false);

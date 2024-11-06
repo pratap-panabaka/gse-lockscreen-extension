@@ -5,8 +5,6 @@ import updateOrnament from '../utils/updateOrnament.js';
 const gradientDirection = (lockscreenExt, n, catchArray) => {
     let items = [];
 
-    let forTitle = new PopupMenu.PopupMenuItem('Gradient Direction', {can_focus: false});
-
     let keys = ['none', 'horizontal', 'vertical'];
     let dconfKey = `gradient-direction-${n}`;
 
@@ -17,7 +15,6 @@ const gradientDirection = (lockscreenExt, n, catchArray) => {
         if (catchArray)
             catchArray.push(item);
 
-
         item.connect('activate', () => {
             lockscreenExt._settings.set_string(dconfKey, key);
             updateOrnament(items, key);
@@ -26,7 +23,7 @@ const gradientDirection = (lockscreenExt, n, catchArray) => {
 
     updateOrnament(items, lockscreenExt._settings.get_string(dconfKey));
 
-    return [forTitle, ...items];
+    return items;
 };
 
 export default gradientDirection;

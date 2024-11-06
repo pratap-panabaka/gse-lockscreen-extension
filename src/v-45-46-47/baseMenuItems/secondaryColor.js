@@ -23,7 +23,6 @@ const secondaryColor = (lockscreenExt, n) => {
     });
 
     item.connect('notify::active', () => inputText.grab_key_focus());
-    item.add_child(new St.Label({text: 'Secondary Color', y_align: Clutter.ActorAlign.CENTER}));
     item.add_child(inputText);
 
     return item;

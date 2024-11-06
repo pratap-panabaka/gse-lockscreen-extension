@@ -1,6 +1,10 @@
 import GLib from 'gi://GLib';
 import Gio from 'gi://Gio';
 
+/* eslint-disable no-await-in-loop */
+/* eslint-disable require-await */
+/* eslint-disable consistent-return */
+
 /* Gio.File */
 Gio._promisify(Gio.File.prototype, 'enumerate_children_async');
 Gio._promisify(Gio.File.prototype, 'query_info_async');
@@ -8,7 +12,13 @@ Gio._promisify(Gio.File.prototype, 'query_info_async');
 /* Gio.FileEnumerator */
 Gio._promisify(Gio.FileEnumerator.prototype, 'next_files_async');
 
-const recursiveGetFileNamesCallback = async (file, fileType, array) => {
+/**
+ *
+ * @param {Gio.File} file - the file or directory
+ * @param {File.Type} fileType - single file or directory
+ * @param {object} array - array to hold file names
+ */
+async function recursiveGetFileNamesCallback(file, fileType, array) {
     switch (fileType) {
     case Gio.FileType.REGULAR: {
         array.push(file.get_uri());
@@ -27,7 +37,7 @@ const recursiveGetFileNamesCallback = async (file, fileType, array) => {
 /**
  * Recursively operate on @file and any children it may have.
  *
- * @param {Gio.File} file - the file or directory to delete
+ * @param {Gio.File} file - the file or directory
  * @param {Function} callback - a function that will be passed the file,
  *     file type (e.g. regular, directory), and @cancellable
  * @param {object} array - array to hold file names

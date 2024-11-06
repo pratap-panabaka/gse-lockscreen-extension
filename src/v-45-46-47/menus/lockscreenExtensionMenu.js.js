@@ -7,22 +7,22 @@ import GNOME_SHELL_VERSION from '../utils/shellVersion.js';
 
 import blurRadius from '../baseMenuItems/blurRadius.js';
 import blurBrightness from '../baseMenuItems/blurBrightness.js';
-import {primaryColor, useSystemPrimaryColor} from '../baseMenuItems/primaryColor.js';
-import {secondaryColor, useSystemSecondaryColor} from '../baseMenuItems/secondaryColor.js';
 import gradientDirection from '../baseMenuItems/gradientDirection.js';
 import backgroundImages from '../baseMenuItems/backgroundImages.js';
 import imageSize from '../baseMenuItems/imageSize.js';
+import {primaryColor, useSystemPrimaryColor} from '../baseMenuItems/primaryColor.js';
+import {secondaryColor, useSystemSecondaryColor} from '../baseMenuItems/secondaryColor.js';
 
-const subMenuMonitorBackgrounds = (lockscreenExt, n) => {
-    lockscreenExt._menu = new PopupMenu.PopupSubMenuMenuItem(`Monitor - ${n}`, false);
-    lockscreenExt._menu._catchItems = [];
-    setBackgrounds(lockscreenExt, n);
+const lockscreenExtMenu = (lockscreenExt, n) => {
+    const menu = new PopupMenu.PopupSubMenuMenuItem(`Monitor - ${n}`, false);
+    menu._catchItems = [];
+    setBackgrounds(lockscreenExt, n, menu);
 
-    return lockscreenExt._menu;
+    return menu;
 };
 
-const setBackgrounds = async (lockscreenExt, n) => {
-    const menu = lockscreenExt._menu;
+const setBackgrounds = async (lockscreenExt, n, menu) => {
+    const catchItems = []; // catch items for adding visibility in scroll view
 
     const scrollView = new St.ScrollView();
     const section = new PopupMenu.PopupMenuSection();
@@ -34,9 +34,7 @@ const setBackgrounds = async (lockscreenExt, n) => {
 
     menu.menu.box.add_child(scrollView);
 
-    const catchItems = []; // catch items for adding visibility in scroll view
-
-    section.addMenuItem(new PopupMenu.PopupSeparatorMenuItem()); //
+    section.addMenuItem(new PopupMenu.PopupSeparatorMenuItem('Primary Color')); //
 
     // primary color
     const pColor = primaryColor(lockscreenExt, n);
@@ -48,7 +46,7 @@ const setBackgrounds = async (lockscreenExt, n) => {
     catchItems.push(pColor, sPColor);
     //
 
-    section.addMenuItem(new PopupMenu.PopupSeparatorMenuItem()); //
+    section.addMenuItem(new PopupMenu.PopupSeparatorMenuItem('Secondary Color')); //
 
     // secondary color
     const sColor = secondaryColor(lockscreenExt, n);
@@ -60,7 +58,7 @@ const setBackgrounds = async (lockscreenExt, n) => {
     catchItems.push(sColor, sSColor);
     //
 
-    section.addMenuItem(new PopupMenu.PopupSeparatorMenuItem()); //
+    section.addMenuItem(new PopupMenu.PopupSeparatorMenuItem('Gradient Direction')); //
 
     // gradient direction
     lockscreenExt._catchGradientDirection = [];
@@ -71,7 +69,7 @@ const setBackgrounds = async (lockscreenExt, n) => {
     });
     //
 
-    section.addMenuItem(new PopupMenu.PopupSeparatorMenuItem()); //
+    section.addMenuItem(new PopupMenu.PopupSeparatorMenuItem('Background Size')); //
 
     // gradient direction
     const iSize = imageSize(lockscreenExt, n);
@@ -81,7 +79,7 @@ const setBackgrounds = async (lockscreenExt, n) => {
     });
     //
 
-    section.addMenuItem(new PopupMenu.PopupSeparatorMenuItem()); //
+    section.addMenuItem(new PopupMenu.PopupSeparatorMenuItem('Blur Radius | 0 to 100')); //
 
     // blur radius
     const bRadius = blurRadius(lockscreenExt, n);
@@ -89,7 +87,7 @@ const setBackgrounds = async (lockscreenExt, n) => {
     catchItems.push(bRadius);
     //
 
-    section.addMenuItem(new PopupMenu.PopupSeparatorMenuItem()); //
+    section.addMenuItem(new PopupMenu.PopupSeparatorMenuItem('Blur Brightness | 0 to 1 | applicable only when blur radius > 0')); //
 
     // blur brightness
     const bBrightness = blurBrightness(lockscreenExt, n);
@@ -97,12 +95,9 @@ const setBackgrounds = async (lockscreenExt, n) => {
     catchItems.push(bBrightness);
     //
 
-    section.addMenuItem(new PopupMenu.PopupSeparatorMenuItem()); //
+    section.addMenuItem(new PopupMenu.PopupSeparatorMenuItem('Backgroud Images')); //
 
     // background images
-    let forTitle = new PopupMenu.PopupMenuItem('Background Images', {can_focus: false});
-    section.addMenuItem(forTitle);
-
     const backgrounds = await backgroundImages(lockscreenExt, n);
     backgrounds.forEach(bg => {
         section.addMenuItem(bg);
@@ -121,4 +116,4 @@ const setBackgrounds = async (lockscreenExt, n) => {
     });
 };
 
-export default subMenuMonitorBackgrounds;
+export default lockscreenExtMenu;
