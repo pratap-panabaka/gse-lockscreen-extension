@@ -33,7 +33,11 @@ const primaryColor = (lockscreenExt, n) => {
 const useSystemPrimaryColor = (lockscreenExt, n) => {
     const item = new PopupMenu.PopupBaseMenuItem();
 
-    item.add_child(new St.Label({text: 'Use Systems Primary Color', style_class: 'button', y_align: Clutter.ActorAlign.CENTER}));
+    const label = new St.Label({text: 'Use Systems Primary Color', style_class: 'button', y_align: Clutter.ActorAlign.CENTER});
+
+    item.add_child(label);
+
+    item.connect('notify::active', () => label.grab_key_focus());
 
     item.connect('activate', () => {
         let systemColor = new Gio.Settings({schema_id: 'org.gnome.desktop.background'}).get_string('primary-color');

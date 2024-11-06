@@ -21,7 +21,7 @@ const getBackgrounds = async () => {
     for (const dirName of BACKGROUND_DIRECTORIES) {
         const dir = Gio.File.new_for_path(dirName);
         if (dir.query_exists(null))
-            await recursiveFileOperation(dir, recursiveGetFileNamesCallback, backgroundFileNames, 'bg');
+            await recursiveFileOperation(dir, recursiveGetFileNamesCallback, backgroundFileNames);
     }
 
     const filtered = backgroundFileNames

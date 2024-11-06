@@ -100,6 +100,9 @@ const setBackgrounds = async (lockscreenExt, n) => {
     section.addMenuItem(new PopupMenu.PopupSeparatorMenuItem()); //
 
     // background images
+    let forTitle = new PopupMenu.PopupMenuItem('Background Images', {can_focus: false});
+    section.addMenuItem(forTitle);
+
     const backgrounds = await backgroundImages(lockscreenExt, n);
     backgrounds.forEach(bg => {
         section.addMenuItem(bg);
@@ -108,6 +111,9 @@ const setBackgrounds = async (lockscreenExt, n) => {
         });
     });
 
+    section.addMenuItem(new PopupMenu.PopupSeparatorMenuItem()); //
+
+    // set actor visible in scroll view
     catchItems.forEach(item => {
         item.connect('key-focus-in', () => {
             AnimationUtils.ensureActorVisibleInScrollView(scrollView, item);

@@ -19,6 +19,8 @@ const backgroundImages = async (lockscreenExt, n) => {
 const createBackgroundPathItems = (backgrounds, lockscreenExt, n) => {
     let items = [];
 
+
+
     // Add System Background Item
     let systemBackgroundItem = new PopupMenu.PopupMenuItem(systemBackground);
     items.push(systemBackgroundItem);
@@ -34,6 +36,7 @@ const createBackgroundPathItems = (backgrounds, lockscreenExt, n) => {
         lockscreenExt._settings.set_string(`gradient-direction-${n}`, 'none');
         updateOrnament(lockscreenExt._catchGradientDirection, 'none');
     });
+
 
     //
     backgrounds.forEach(backgroundName => {

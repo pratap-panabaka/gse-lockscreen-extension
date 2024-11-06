@@ -5,7 +5,7 @@ import updateOrnament from '../utils/updateOrnament.js';
 const gradientDirection = (lockscreenExt, n, catchArray) => {
     let items = [];
 
-    let forTitle = new PopupMenu.PopupMenuItem('Gradient Direction');
+    let forTitle = new PopupMenu.PopupMenuItem('Gradient Direction', {can_focus: false});
 
     let keys = ['none', 'horizontal', 'vertical'];
     let dconfKey = `gradient-direction-${n}`;

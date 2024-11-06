@@ -5,7 +5,7 @@ import updateOrnament from '../utils/updateOrnament.js';
 const imageSize = (lockscreenExt, n) => {
     let items = [];
 
-    let forTitle = new PopupMenu.PopupMenuItem('Background Image Size');
+    let forTitle = new PopupMenu.PopupMenuItem('Background Image Size', {can_focus: false});
 
     let keys = ['cover', 'center', 'contain'];
     let dconfKey = `background-size-${n}`;
