@@ -10,30 +10,28 @@ Gio._promisify(Gio.FileEnumerator.prototype, 'next_files_async');
 
 const recursiveGetFileNamesCallback = async (file, fileType, array, type) => {
     switch (fileType) {
-
-        case Gio.FileType.REGULAR: {
-            if (type === 'bg') {
-                array.push(file.get_uri());
-            } else {
-                const fileInfo = await file.query_info_async(
-                    'standard::*',
-                    Gio.FileQueryInfoFlags.NOFOLLOW_SYMLINKS,
-                    GLib.PRIORITY_DEFAULT,
-                    null
-                );
-                array.push(fileInfo.get_name());
-            }
-            return;
+    case Gio.FileType.REGULAR: {
+        if (type === 'bg') {
+            array.push(file.get_uri());
+        } else {
+            const fileInfo = await file.query_info_async(
+                'standard::*',
+                Gio.FileQueryInfoFlags.NOFOLLOW_SYMLINKS,
+                GLib.PRIORITY_DEFAULT,
+                null
+            );
+            array.push(fileInfo.get_name());
         }
+        return;
+    }
 
-        case Gio.FileType.DIRECTORY: {
-             
-            return recursiveFileOperation(file, recursiveGetFileNamesCallback, array, type);
-        }
+    case Gio.FileType.DIRECTORY: {
+        return recursiveFileOperation(file, recursiveGetFileNamesCallback, array, type);
+    }
 
-        default:
-             
-            return null;
+    default:
+
+        return null;
     }
 };
 
@@ -44,6 +42,7 @@ const recursiveGetFileNamesCallback = async (file, fileType, array, type) => {
  * @param {Function} callback - a function that will be passed the file,
  *     file type (e.g. regular, directory), and @cancellable
  * @param {object} array - array to hold font file names
+ * @param type
  * @returns {Promise} a Promise for the operation
  */
 async function recursiveFileOperation(file, callback, array, type) {
@@ -61,7 +60,6 @@ async function recursiveFileOperation(file, callback, array, type) {
         const branches = [];
 
         while (true) {
-             
             const fileInfos = await iter.next_files_async(100, GLib.PRIORITY_DEFAULT, null);
 
             if (fileInfos.length === 0)
@@ -87,4 +85,4 @@ async function recursiveFileOperation(file, callback, array, type) {
     return callback(file, array, type);
 }
 
-export { recursiveFileOperation, recursiveGetFileNamesCallback };
+export {recursiveFileOperation, recursiveGetFileNamesCallback};

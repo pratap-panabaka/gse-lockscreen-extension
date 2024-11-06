@@ -12,7 +12,7 @@
 
 import Gio from 'gi://Gio';
 import GLib from 'gi://GLib';
-import { recursiveFileOperation, recursiveGetFileNamesCallback } from './recursiveFileOperation.js';
+import {recursiveFileOperation, recursiveGetFileNamesCallback} from './recursiveFileOperation.js';
 
 const BACKGROUND_DIRECTORIES = [`${GLib.get_user_data_dir()}/backgrounds`, '/usr/local/share/backgrounds', '/usr/share/backgrounds'];
 
@@ -38,9 +38,9 @@ const getBackgrounds = async () => {
                 name.endsWith('.PNG') ||
                 name.endsWith('.GIF') ||
                 name.endsWith('.WEBP')
-        )
+        );
 
     return filtered;
-}
+};
 
 export default getBackgrounds;

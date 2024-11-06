@@ -2,21 +2,17 @@ import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
 
 import updateOrnament from '../utils/updateOrnament.js';
 
-const gradientDirection = (lockscreenExt, n, catchArray) => {
+const imageSize = (lockscreenExt, n) => {
     let items = [];
 
-    let forTitle = new PopupMenu.PopupMenuItem('Gradient Direction');
+    let forTitle = new PopupMenu.PopupMenuItem('Background Image Size');
 
-    let keys = ['none', 'horizontal', 'vertical'];
-    let dconfKey = `gradient-direction-${n}`;
+    let keys = ['cover', 'center', 'contain'];
+    let dconfKey = `background-size-${n}`;
 
     keys.forEach(key => {
         const item = new PopupMenu.PopupMenuItem(key);
         items.push(item);
-
-        if (catchArray)
-            catchArray.push(item);
-
 
         item.connect('activate', () => {
             lockscreenExt._settings.set_string(dconfKey, key);
@@ -29,4 +25,4 @@ const gradientDirection = (lockscreenExt, n, catchArray) => {
     return [forTitle, ...items];
 };
 
-export default gradientDirection;
+export default imageSize;

@@ -8,10 +8,10 @@ let inputText, getInput;
 
 //
 const secondaryColor = (lockscreenExt, n) => {
-    const item = new PopupMenu.PopupBaseMenuItem()
+    const item = new PopupMenu.PopupBaseMenuItem();
 
     inputText = new St.Entry({
-        hint_text: "Please enter secondary color Ex: #454545",
+        hint_text: 'Please enter secondary color Ex: #454545',
         text: lockscreenExt._settings.get_string(`secondary-color-${n}`),
         track_hover: true,
         can_focus: true,
@@ -23,25 +23,25 @@ const secondaryColor = (lockscreenExt, n) => {
     });
 
     item.connect('notify::active', () => inputText.grab_key_focus());
-    item.add_child(new St.Label({ text: 'Secondary Color', y_align: Clutter.ActorAlign.CENTER }));
+    item.add_child(new St.Label({text: 'Secondary Color', y_align: Clutter.ActorAlign.CENTER}));
     item.add_child(inputText);
 
     return item;
-}
+};
 
-// 
+//
 const useSystemSecondaryColor = (lockscreenExt, n) => {
     const item = new PopupMenu.PopupBaseMenuItem();
 
-    item.add_child(new St.Label({ text: 'Use Systems Secondary Color', style_class: "button", y_align: Clutter.ActorAlign.CENTER }));
+    item.add_child(new St.Label({text: 'Use Systems Secondary Color', style_class: 'button', y_align: Clutter.ActorAlign.CENTER}));
 
     item.connect('activate', () => {
-        let systemColor = new Gio.Settings({ schema_id: 'org.gnome.desktop.background' }).get_string("secondary-color");
+        let systemColor = new Gio.Settings({schema_id: 'org.gnome.desktop.background'}).get_string('secondary-color');
         lockscreenExt._settings.set_string(`secondary-color-${n}`, systemColor);
         inputText.text = systemColor;
     });
 
     return item;
-}
+};
 
-export { secondaryColor, useSystemSecondaryColor }
+export {secondaryColor, useSystemSecondaryColor};

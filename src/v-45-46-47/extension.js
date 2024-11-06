@@ -21,7 +21,7 @@ import Gio from 'gi://Gio';
 import Shell from 'gi://Shell';
 
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
-import { Extension, InjectionManager } from 'resource:///org/gnome/shell/extensions/extension.js';
+import {Extension, InjectionManager} from 'resource:///org/gnome/shell/extensions/extension.js';
 import LockscreenExt from './lockscreenExt.js';
 import getUserBackground from './utils/getUserBackground.js';
 
@@ -33,7 +33,7 @@ export default class LockscreenExtension extends Extension {
         this._keys = this._settings.list_keys();
         this._keys.forEach(key => {
             this[`_${key}_changedId`] = null;
-        })
+        });
         //
 
         this._indicator = null;
@@ -49,7 +49,7 @@ export default class LockscreenExtension extends Extension {
         // override _createBackground method
         this._injectionManager.overrideMethod(Main.screenShield._dialog, '_createBackground',
             () => {
-                return (monitorIndex) => {
+                return monitorIndex => {
                     const n = monitorIndex + 1;
                     let themeContext = St.ThemeContext.get_for_stage(global.stage);
 
@@ -59,7 +59,7 @@ export default class LockscreenExtension extends Extension {
                     let blurEffect = {
                         name: 'lockscreen-extension-blur',
                         radius: blurRadius * themeContext.scale_factor,
-                        brightness: blurBrightness
+                        brightness: blurBrightness,
                     };
 
                     let userBackground = this._settings.get_boolean(`user-background-${n}`);
@@ -85,21 +85,17 @@ export default class LockscreenExtension extends Extension {
                         effect: new Shell.BlurEffect(blurEffect),
                     });
 
-
-
                     Main.screenShield._dialog._backgroundGroup.add_child(widget);
-                }
+                };
             });
 
-        if (Main.screenShield._dialog) {
+        if (Main.screenShield._dialog)
             Main.screenShield._dialog._updateBackgrounds();
-        }
     }
 
     _onChangesFromGDMScreen() {
-        if (Main.screenShield._dialog) {
+        if (Main.screenShield._dialog)
             Main.screenShield._dialog._updateBackgrounds();
-        }
     }
 
     _callMonitorConnectionSettings(n) {
@@ -111,10 +107,10 @@ export default class LockscreenExtension extends Extension {
             `background-size-${n}`,
             `blur-radius-${n}`,
             `blur-brightness-${n}`,
-            `user-background-${n}`
+            `user-background-${n}`,
         ]
             .forEach(key => {
-                this[`_${key}_changedId`] = this._settings.connect(`changed::${key}`, this._onChangesFromGDMScreen.bind(this))
+                this[`_${key}_changedId`] = this._settings.connect(`changed::${key}`, this._onChangesFromGDMScreen.bind(this));
             });
     }
 
@@ -124,26 +120,26 @@ export default class LockscreenExtension extends Extension {
         let n = 1;
         while (nMonitors > 0) {
             switch (n) {
-                case 1:
-                    this._callMonitorConnectionSettings(n);
-                    break;
-                case 2:
-                    this._callMonitorConnectionSettings(n);
-                    break;
-                case 3:
-                    this._callMonitorConnectionSettings(n);
-                    break;
-                case 4:
-                    this._callMonitorConnectionSettings(n);
-                    break;
-                default:
-                    break;
+            case 1:
+                this._callMonitorConnectionSettings(n);
+                break;
+            case 2:
+                this._callMonitorConnectionSettings(n);
+                break;
+            case 3:
+                this._callMonitorConnectionSettings(n);
+                break;
+            case 4:
+                this._callMonitorConnectionSettings(n);
+                break;
+            default:
+                break;
             }
             n += 1;
             nMonitors -= 1;
         }
 
-        let key = "hide-lockscreen-extension-button";
+        let key = 'hide-lockscreen-extension-button';
         this[`_${key}_changedId`] = this._settings.connect(`changed::${key}`, this._onVisibilityChange.bind(this));
     }
 
@@ -153,7 +149,7 @@ export default class LockscreenExtension extends Extension {
                 this._settings.disconnect(this[`_${key}_changedId`]);
                 this[`_${key}_changedId`] = null;
             }
-        })
+        });
         this._keys = null;
     }
 

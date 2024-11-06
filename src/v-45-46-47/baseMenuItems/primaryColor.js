@@ -8,10 +8,10 @@ let inputText, getInput;
 
 //
 const primaryColor = (lockscreenExt, n) => {
-    const item = new PopupMenu.PopupBaseMenuItem()
+    const item = new PopupMenu.PopupBaseMenuItem();
 
     inputText = new St.Entry({
-        hint_text: "Please enter primary color Ex: #454545",
+        hint_text: 'Please enter primary color Ex: #454545',
         text: lockscreenExt._settings.get_string(`primary-color-${n}`),
         track_hover: true,
         can_focus: true,
@@ -23,25 +23,25 @@ const primaryColor = (lockscreenExt, n) => {
     });
 
     item.connect('notify::active', () => inputText.grab_key_focus());
-    item.add_child(new St.Label({ text: 'Primary Color', y_align: Clutter.ActorAlign.CENTER }));
+    item.add_child(new St.Label({text: 'Primary Color', y_align: Clutter.ActorAlign.CENTER}));
     item.add_child(inputText);
 
     return item;
-}
+};
 
-// 
+//
 const useSystemPrimaryColor = (lockscreenExt, n) => {
     const item = new PopupMenu.PopupBaseMenuItem();
 
-    item.add_child(new St.Label({ text: 'Use Systems Primary Color', style_class: "button", y_align: Clutter.ActorAlign.CENTER }));
+    item.add_child(new St.Label({text: 'Use Systems Primary Color', style_class: 'button', y_align: Clutter.ActorAlign.CENTER}));
 
     item.connect('activate', () => {
-        let systemColor = new Gio.Settings({ schema_id: 'org.gnome.desktop.background' }).get_string("primary-color");
+        let systemColor = new Gio.Settings({schema_id: 'org.gnome.desktop.background'}).get_string('primary-color');
         lockscreenExt._settings.set_string(`primary-color-${n}`, systemColor);
         inputText.text = systemColor;
     });
 
     return item;
-}
+};
 
-export { primaryColor, useSystemPrimaryColor }
+export {primaryColor, useSystemPrimaryColor};
