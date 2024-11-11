@@ -25,10 +25,11 @@ cd lockscreen-extension
 ```
 ./uninstall.sh
 ```
+![ls_1](https://github.com/user-attachments/assets/46895f75-e489-46fc-8aee-bf0f10fc987f)
 
-![gnome-lockscreen-extension](https://github.com/user-attachments/assets/71c1d659-bcb0-4367-b8a8-95e54f5f6740)
+![ls_2](https://github.com/user-attachments/assets/2a05a747-9f8b-4a0c-961a-2c5fcb499660)
 
-![gnome-lockscreen-extension](https://github.com/user-attachments/assets/3bcc1bb7-bd6f-41b3-b26e-58dc37f40ecc)
+![ls_3](https://github.com/user-attachments/assets/e6587741-ac77-46f0-a933-a29603e3fc5b)
 
 ```
 [admin@Xuxa lockscreen-extension]$ ./uninstall.sh 
