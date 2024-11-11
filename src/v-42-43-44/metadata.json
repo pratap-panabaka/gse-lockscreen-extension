@@ -1,6 +1,6 @@
 {
   "name": "Lockscreen Extension",
-  "description": "Customize GNOME's Lockscreen",
+  "description": "Customize GNOME's Lockscreen from the lockscreen itself.",
   "uuid": "lockscreen-extension@pratap.fastmail.fm",
   "settings-schema": "org.gnome.shell.extensions.lockscreen-extension",
   "session-modes": [
