@@ -2,16 +2,16 @@ import Clutter from 'gi://Clutter';
 import St from 'gi://St';
 import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
 
-import ConfirmDialog from "../utils/confirmDialog.js";
+import ConfirmDialog from '../utils/confirmDialog.js';
 
-const hideExtensionButton = (lockscreenExt) => {
-    lockscreenExt._hideExtensionButton = new PopupMenu.PopupBaseMenuItem();
-    let hideButton = new St.Button({ label: 'Hide lockscreen-extension button', style_class: "button", x_align: Clutter.ActorAlign.CENTER, x_expand: true});
-    hideButton.connect('clicked', () => openModal(lockscreenExt));
-    lockscreenExt._hideExtensionButton.add_child(hideButton)
-
-    return lockscreenExt._hideExtensionButton;
-}
+const hideExtensionButton = lockscreenExt => {
+    const item = new PopupMenu.PopupBaseMenuItem();
+    const label = new St.Label({text: 'Hide lockscreen-extension button', style_class: 'button', x_expand: true, x_align: Clutter.ActorAlign.CENTER, y_align: Clutter.ActorAlign.CENTER});
+    item.add_child(label);
+    item.connect('notify::active', () => label.grab_key_focus());
+    item.connect('activate', () => openModal(lockscreenExt));
+    return item;
+};
 
 const confirmDialog = {
     subject: ('title', 'Hide lockscreen-extension button?'),
@@ -31,7 +31,7 @@ const confirmDialog = {
     ],
 };
 
-const openModal = (extension) => {
+const openModal = extension => {
     const settings = extension._settings;
     const modal = new ConfirmDialog(confirmDialog);
 
@@ -40,6 +40,6 @@ const openModal = (extension) => {
     });
 
     modal.open();
-}
+};
 
 export default hideExtensionButton;

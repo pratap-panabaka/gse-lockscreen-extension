@@ -1,5 +1,5 @@
 import GObject from 'gi://GObject';
-import { QuickSlider } from 'resource:///org/gnome/shell/ui/quickSettings.js';
+import {QuickSlider} from 'resource:///org/gnome/shell/ui/quickSettings.js';
 
 const Slider = GObject.registerClass(
     class Slider extends QuickSlider {
@@ -44,8 +44,7 @@ const Slider = GObject.registerClass(
 
             if (this._dconfKey.startsWith('blur-brightness')) {
                 this._settings.set_double(this._dconfKey, percent);
-            }
-            else {
+            } else {
                 this._holdValueForIntDoubleConversion = percent * 100;
                 this._settings.set_int(this._dconfKey, Math.floor(percent * 100));
             }
