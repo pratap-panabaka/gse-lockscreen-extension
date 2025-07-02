@@ -9,9 +9,10 @@
   "shell-version": [
     "45",
     "46",
-    "47"
+    "47",
+    "48
   ],
-  "url": "https://github.com/PRATAP-KUMAR/lockscreen-extension",
+  "url": "https://github.com/pratap-panabaka/gse-lockscreen-extension",
   "donations": {
     "buymeacoffee": "pratappanabaka"
   },
