@@ -9,7 +9,7 @@ This extension is a improvment of [Control Blur Effect on Lock Screen](https://g
 
 ### Install
 ```
-git clone https://github.com/PRATAP-KUMAR/lockscreen-extension
+git clone https://github.com/pratap-panabaka/gse-lockscreen-extension
 cd lockscreen-extension
 ./install.sh
 ```
