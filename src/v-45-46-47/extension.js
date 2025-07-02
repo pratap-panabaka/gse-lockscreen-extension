@@ -28,47 +28,50 @@ import getUserBackground from './utils/getUserBackground.js';
 export default class LockscreenExtension extends Extension {
     enable() {
         this._settings = this.getSettings();
-
+        
+        this._systemBgSettings = new Gio.Settings({schema_id: 'org.gnome.desktop.background'});
+        
         // for disconnecting signals
         this._keys = this._settings.list_keys();
         this._keys.forEach(key => {
             this[`_${key}_changedId`] = null;
         });
+        this._systemBgChangedId = null;
         //
-
+        
         this._indicator = null;
-
+        
         this._onSessionModeChanged(Main.sessionMode);
-
+        
         this._onVisibilityChange(); // show the extension settings icon on Admin decision
-
+        
         this._connectionSettings(); // trigger setting changes
-
+        
         this._injectionManager = new InjectionManager();
-
+        
         // override _createBackground method
         this._injectionManager.overrideMethod(Main.screenShield._dialog, '_createBackground',
             () => {
                 return monitorIndex => {
                     const n = monitorIndex + 1;
                     let themeContext = St.ThemeContext.get_for_stage(global.stage);
-
+                    
                     let blurRadius = this._settings.get_int(`blur-radius-${n}`);
                     let blurBrightness = this._settings.get_double(`blur-brightness-${n}`);
-
+                    
                     let blurEffect = {
                         name: 'lockscreen-extension-blur',
                         radius: blurRadius * themeContext.scale_factor,
                         brightness: blurBrightness,
                     };
-
+                    
                     let userBackground = this._settings.get_boolean(`user-background-${n}`);
                     let imagePath = userBackground ? getUserBackground() : this._settings.get_string(`background-image-path-${n}`);
                     let file = Gio.file_new_for_uri(imagePath);
                     let isPathExists = file.query_exists(null);
-
+                    
                     let monitor = Main.layoutManager.monitors[monitorIndex];
-
+                    
                     let widget = new St.Widget({
                         style: `
                         background-color: ${this._settings.get_string(`primary-color-${n}`)};
@@ -84,20 +87,20 @@ export default class LockscreenExtension extends Extension {
                         height: monitor.height,
                         effect: new Shell.BlurEffect(blurEffect),
                     });
-
+                    
                     Main.screenShield._dialog._backgroundGroup.add_child(widget);
                 };
             });
-
+            
         if (Main.screenShield._dialog)
             Main.screenShield._dialog._updateBackgrounds();
     }
 
-    _onChangesFromGDMScreen() {
+    _onChangesFromLockScreen() {
         if (Main.screenShield._dialog)
             Main.screenShield._dialog._updateBackgrounds();
     }
-
+    
     _callMonitorConnectionSettings(n) {
         [
             `primary-color-${n}`,
@@ -110,30 +113,30 @@ export default class LockscreenExtension extends Extension {
             `user-background-${n}`,
         ]
             .forEach(key => {
-                this[`_${key}_changedId`] = this._settings.connect(`changed::${key}`, this._onChangesFromGDMScreen.bind(this));
+                this[`_${key}_changedId`] = this._settings.connect(`changed::${key}`, this._onChangesFromLockScreen.bind(this));
             });
-    }
-
-    _connectionSettings() {
-        let nMonitors = Main.layoutManager.monitors.length;
-        nMonitors = nMonitors > 4 ? 4 : nMonitors;
-        let n = 1;
+        }
+        
+        _connectionSettings() {
+            let nMonitors = Main.layoutManager.monitors.length;
+            nMonitors = nMonitors > 4 ? 4 : nMonitors;
+            let n = 1;
         while (nMonitors > 0) {
             switch (n) {
-            case 1:
-                this._callMonitorConnectionSettings(n);
-                break;
+                case 1:
+                    this._callMonitorConnectionSettings(n);
+                    break;
             case 2:
                 this._callMonitorConnectionSettings(n);
                 break;
             case 3:
                 this._callMonitorConnectionSettings(n);
                 break;
-            case 4:
-                this._callMonitorConnectionSettings(n);
-                break;
-            default:
-                break;
+                case 4:
+                    this._callMonitorConnectionSettings(n);
+                    break;
+                    default:
+                        break;
             }
             n += 1;
             nMonitors -= 1;
@@ -141,6 +144,8 @@ export default class LockscreenExtension extends Extension {
 
         let key = 'hide-lockscreen-extension-button';
         this[`_${key}_changedId`] = this._settings.connect(`changed::${key}`, this._onVisibilityChange.bind(this));
+        if(!this._systemBgChangedId)
+            this._systemBgChangedId = this._systemBgSettings.connect("changed::picture-uri", this._onChangesFromLockScreen.bind(this));
     }
 
     _disconnectSignals() {
@@ -151,6 +156,12 @@ export default class LockscreenExtension extends Extension {
             }
         });
         this._keys = null;
+
+        // systemBgChangeSignal
+        if(this._systemBgChangedId) {
+            this._systemBgSettings.disconnect(this._systemBgChangedId)
+            this._systemBgChangedId = null;
+        }
     }
 
     _onVisibilityChange() {
