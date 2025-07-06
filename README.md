@@ -1,5 +1,9 @@
 ### Gnome Lockscreen Extension (GNOME V42 and above)
 
+this extension update on v9.
+- removed sliders and used entry box'es for blur-radius and blur-brightness.
+- added settings for selecting custom folder from which background images to be picked.
+
 This extension is a improvment of [Control Blur Effect on Lock Screen](https://github.com/PRATAP-KUMAR/control-blur-effect-on-lockscreen) extension.
 - With this (lockscreen-extension) you can control blur effect and also set background images or colors in real time.
 - You can set different background images/colors for each monitor upto four monitors.
