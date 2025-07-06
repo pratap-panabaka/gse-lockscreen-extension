@@ -29,10 +29,10 @@ const primaryColor = (lockscreenExt, n) => {
 };
 
 //
-const useSystemPrimaryColor = (lockscreenExt, n) => {
+const useDesktopPrimaryColor = (lockscreenExt, n) => {
     const item = new PopupMenu.PopupBaseMenuItem();
 
-    const label = new St.Label({text: 'Use Systems Primary Color', style_class: 'button', y_align: Clutter.ActorAlign.CENTER});
+    const label = new St.Label({text: 'Use Desktop Primary Color', style_class: 'button', y_align: Clutter.ActorAlign.CENTER});
 
     item.add_child(label);
 
@@ -47,4 +47,4 @@ const useSystemPrimaryColor = (lockscreenExt, n) => {
     return item;
 };
 
-export {primaryColor, useSystemPrimaryColor};
+export {primaryColor, useDesktopPrimaryColor};

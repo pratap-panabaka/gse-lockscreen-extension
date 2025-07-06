@@ -1,7 +1,7 @@
 import Gio from 'gi://Gio';
 import GDesktopEnums from 'gi://GDesktopEnums';
 
-const getUserBackground = () => {
+const getDesktopBackground = () => {
     const colorScheme = new Gio.Settings({schema_id: 'org.gnome.desktop.interface'}).get_enum('color-scheme');
     const uri = new Gio.Settings({schema_id: 'org.gnome.desktop.background'}).get_string(
         colorScheme === GDesktopEnums.ColorScheme.PREFER_DARK
@@ -11,4 +11,4 @@ const getUserBackground = () => {
     return uri;
 };
 
-export default getUserBackground;
+export default getDesktopBackground;

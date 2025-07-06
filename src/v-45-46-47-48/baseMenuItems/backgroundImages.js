@@ -1,17 +1,32 @@
+import GLib from 'gi://GLib';
+import Gio from 'gi://Gio';
 import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
 
 import updateOrnament from '../utils/updateOrnament.js';
 import getBackgrounds from '../utils/getBackgrounds.js';
 
-const systemBackground = 'Use Systems Background Image';
+const desktopBackground = 'Use Whatever My Desktop Background Image Is';
 
 const backgroundImages = async (lockscreenExt, n) => {
-    const backgrounds = await getBackgrounds();
+    const userSelectedFolder = lockscreenExt._settings.get_string('backgrounds-folder-path') || '';
+
+    const localShare = lockscreenExt._settings.get_boolean('local-share-backgrounds-folder-path')
+        ? `${GLib.get_user_data_dir()}/backgrounds` : '';
+
+    const usrLocalShare = lockscreenExt._settings.get_boolean('usr-local-share-backgrounds-folder-path')
+        ? '/usr/local/share/backgrounds' : '';
+
+    const usrShare = lockscreenExt._settings.get_boolean('usr-share-backgrounds-folder-path')
+        ? '/usr/share/backgrounds' : '';
+
+    let paths = [userSelectedFolder, localShare, usrLocalShare, usrShare];
+
+    const backgrounds = await getBackgrounds(paths);
     let items = createBackgroundPathItems(backgrounds, lockscreenExt, n);
 
     const text = lockscreenExt._settings.get_string(`background-image-path-${n}`);
     const userBackground = lockscreenExt._settings.get_boolean(`user-background-${n}`);
-    updateOrnament(items, userBackground ? systemBackground : text);
+    updateOrnament(items, userBackground ? desktopBackground : text);
 
     return items;
 };
@@ -20,19 +35,20 @@ const createBackgroundPathItems = (backgrounds, lockscreenExt, n) => {
     let items = [];
 
     // Add System Background Item
-    let systemBackgroundItem = new PopupMenu.PopupMenuItem(systemBackground);
-    items.push(systemBackgroundItem);
+    let desktopBackgroundItem = new PopupMenu.PopupMenuItem(desktopBackground);
+    items.push(desktopBackgroundItem);
 
-    systemBackgroundItem.connect('activate', () => {
+    desktopBackgroundItem.connect('activate', () => {
         lockscreenExt._settings.set_boolean(`user-background-${n}`, true);
-        updateOrnament(items, systemBackground);
+        updateOrnament(items, desktopBackground);
         lockscreenExt._settings.set_string(`gradient-direction-${n}`, 'none');
         updateOrnament(lockscreenExt._catchGradientDirection, 'none');
     });
 
     //
     backgrounds.forEach(backgroundName => {
-        const backgroundNameItem = new PopupMenu.PopupMenuItem(backgroundName);
+        const backgroundNameItem = new PopupMenu.PopupImageMenuItem(backgroundName, Gio.icon_new_for_string(backgroundName));
+        backgroundNameItem._icon.set_icon_size(96);
         items.push(backgroundNameItem);
 
         backgroundNameItem.connect('activate', () => {

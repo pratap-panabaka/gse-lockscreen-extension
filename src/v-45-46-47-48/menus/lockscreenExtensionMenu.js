@@ -5,13 +5,13 @@ import * as AnimationUtils from 'resource:///org/gnome/shell/misc/animationUtils
 
 import GNOME_SHELL_VERSION from '../utils/shellVersion.js';
 
-import blurRadius from '../baseMenuItems/blurRadius.js';
-import blurBrightness from '../baseMenuItems/blurBrightness.js';
 import gradientDirection from '../baseMenuItems/gradientDirection.js';
 import backgroundImages from '../baseMenuItems/backgroundImages.js';
 import imageSize from '../baseMenuItems/imageSize.js';
-import {primaryColor, useSystemPrimaryColor} from '../baseMenuItems/primaryColor.js';
-import {secondaryColor, useSystemSecondaryColor} from '../baseMenuItems/secondaryColor.js';
+import {primaryColor, useDesktopPrimaryColor} from '../baseMenuItems/primaryColor.js';
+import {secondaryColor, useDesktopSecondaryColor} from '../baseMenuItems/secondaryColor.js';
+import bRadius from '../baseMenuItems/bRadius.js';
+import bBrightness from '../baseMenuItems/bBrightness.js';
 
 const lockscreenExtMenu = (lockscreenExt, n) => {
     const menu = new PopupMenu.PopupSubMenuMenuItem(`Monitor - ${n}`, false);
@@ -40,7 +40,7 @@ const setBackgrounds = async (lockscreenExt, n, menu) => {
     const pColor = primaryColor(lockscreenExt, n);
     section.addMenuItem(pColor);
 
-    const sPColor = useSystemPrimaryColor(lockscreenExt, n);
+    const sPColor = useDesktopPrimaryColor(lockscreenExt, n);
     section.addMenuItem(sPColor);
 
     catchItems.push(pColor, sPColor);
@@ -52,7 +52,7 @@ const setBackgrounds = async (lockscreenExt, n, menu) => {
     const sColor = secondaryColor(lockscreenExt, n);
     section.addMenuItem(sColor);
 
-    const sSColor = useSystemSecondaryColor(lockscreenExt, n);
+    const sSColor = useDesktopSecondaryColor(lockscreenExt, n);
     section.addMenuItem(sSColor);
 
     catchItems.push(sColor, sSColor);
@@ -82,17 +82,17 @@ const setBackgrounds = async (lockscreenExt, n, menu) => {
     section.addMenuItem(new PopupMenu.PopupSeparatorMenuItem('Blur Radius | 0 to 100')); //
 
     // blur radius
-    const bRadius = blurRadius(lockscreenExt, n);
-    section.addMenuItem(bRadius);
-    catchItems.push(bRadius);
+    const blurRadius = bRadius(lockscreenExt, n);
+    section.addMenuItem(blurRadius);
+    catchItems.push(blurRadius);
     //
 
-    section.addMenuItem(new PopupMenu.PopupSeparatorMenuItem('Blur Brightness | 0 to 1 | applicable only when blur radius > 0')); //
+    section.addMenuItem(new PopupMenu.PopupSeparatorMenuItem('Blur Brightness | 0.00 to 1.00 | applicable only when blur radius > 0')); //
 
     // blur brightness
-    const bBrightness = blurBrightness(lockscreenExt, n);
-    section.addMenuItem(bBrightness);
-    catchItems.push(bBrightness);
+    const blurBrightness = bBrightness(lockscreenExt, n);
+    section.addMenuItem(blurBrightness);
+    catchItems.push(blurBrightness);
     //
 
     section.addMenuItem(new PopupMenu.PopupSeparatorMenuItem('Backgroud Images')); //

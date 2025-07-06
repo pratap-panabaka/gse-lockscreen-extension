@@ -1,5 +1,6 @@
 <schemalist>
-    <schema id="org.gnome.shell.extensions.lockscreen-extension" path="/org/gnome/shell/extensions/lockscreen-extension/">
+    <schema id="org.gnome.shell.extensions.lockscreen-extension"
+        path="/org/gnome/shell/extensions/lockscreen-extension/">
 
         <key name="primary-color-1" type="s">
             <default>"red"</default>
@@ -203,6 +204,30 @@
 
         <key name="hide-lockscreen-extension-button" type="b">
             <default>false</default>
+            <summary>Summary</summary>
+            <description>Description</description>
+        </key>
+
+        <key name="backgrounds-folder-path" type="s">
+            <default>""</default>
+            <summary>Summary</summary>
+            <description>Description</description>
+        </key>
+
+        <key name="local-share-backgrounds-folder-path" type="b">
+            <default>true</default>
+            <summary>Summary</summary>
+            <description>Description</description>
+        </key>
+
+        <key name="usr-local-share-backgrounds-folder-path" type="b">
+            <default>true</default>
+            <summary>Summary</summary>
+            <description>Description</description>
+        </key>
+
+        <key name="usr-share-backgrounds-folder-path" type="b">
+            <default>true</default>
             <summary>Summary</summary>
             <description>Description</description>
         </key>

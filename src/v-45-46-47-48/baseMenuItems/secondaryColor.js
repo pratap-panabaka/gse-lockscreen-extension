@@ -29,10 +29,10 @@ const secondaryColor = (lockscreenExt, n) => {
 };
 
 //
-const useSystemSecondaryColor = (lockscreenExt, n) => {
+const useDesktopSecondaryColor = (lockscreenExt, n) => {
     const item = new PopupMenu.PopupBaseMenuItem();
 
-    const label = new St.Label({text: 'Use Systems Secondary Color', style_class: 'button', y_align: Clutter.ActorAlign.CENTER});
+    const label = new St.Label({text: 'Use Desktop Secondary Color', style_class: 'button', y_align: Clutter.ActorAlign.CENTER});
 
     item.add_child(label);
 
@@ -47,4 +47,4 @@ const useSystemSecondaryColor = (lockscreenExt, n) => {
     return item;
 };
 
-export {secondaryColor, useSystemSecondaryColor};
+export {secondaryColor, useDesktopSecondaryColor};

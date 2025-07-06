@@ -12,17 +12,17 @@
 /* eslint-disable no-await-in-loop */
 
 import Gio from 'gi://Gio';
-import GLib from 'gi://GLib';
-import {recursiveFileOperation, recursiveGetFileNamesCallback} from './recursiveFileOperation.js';
+import recursiveFileOperation from './recursiveFileOperation.js';
 
-const BACKGROUND_DIRECTORIES = [`${GLib.get_user_data_dir()}/backgrounds`, '/usr/local/share/backgrounds', '/usr/share/backgrounds'];
-
-const getBackgrounds = async () => {
+const getBackgrounds = async paths => {
     let backgroundFileNames = [];
-    for (const dirName of BACKGROUND_DIRECTORIES) {
+    for (const dirName of paths) {
         const dir = Gio.File.new_for_path(dirName);
-        if (dir.query_exists(null))
-            await recursiveFileOperation(dir, recursiveGetFileNamesCallback, backgroundFileNames);
+        if (dir.query_exists(null)) {
+            let result = await recursiveFileOperation(dir);
+            if (result)
+                backgroundFileNames.push(...result);
+        }
     }
 
     const filtered = backgroundFileNames

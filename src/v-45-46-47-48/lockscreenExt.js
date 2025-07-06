@@ -6,7 +6,7 @@ import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js';
 
 import hideExtensionButton from './buttons/hideExtensionButton.js';
-import lockscreenExtMenu from './menus/lockscreenExtensionMenu.js.js';
+import lockscreenExtMenu from './menus/lockscreenExtensionMenu.js';
 
 const LockscreenExt = GObject.registerClass(
     class LockscreenExt extends PanelMenu.Button {
