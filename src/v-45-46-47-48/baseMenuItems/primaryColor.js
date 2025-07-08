@@ -1,12 +1,9 @@
 import St from 'gi://St';
-import Gio from 'gi://Gio';
-import Clutter from 'gi://Clutter';
 
 import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
 
 let inputText, getInput;
 
-//
 const primaryColor = (lockscreenExt, n) => {
     const item = new PopupMenu.PopupBaseMenuItem();
 
@@ -28,23 +25,4 @@ const primaryColor = (lockscreenExt, n) => {
     return item;
 };
 
-//
-const useDesktopPrimaryColor = (lockscreenExt, n) => {
-    const item = new PopupMenu.PopupBaseMenuItem();
-
-    const label = new St.Label({text: 'Use Desktop Primary Color', style_class: 'button', y_align: Clutter.ActorAlign.CENTER});
-
-    item.add_child(label);
-
-    item.connect('notify::active', () => label.grab_key_focus());
-
-    item.connect('activate', () => {
-        let systemColor = new Gio.Settings({schema_id: 'org.gnome.desktop.background'}).get_string('primary-color');
-        lockscreenExt._settings.set_string(`primary-color-${n}`, systemColor);
-        inputText.text = systemColor;
-    });
-
-    return item;
-};
-
-export {primaryColor, useDesktopPrimaryColor};
+export default primaryColor;

@@ -8,8 +8,8 @@ import GNOME_SHELL_VERSION from '../utils/shellVersion.js';
 import gradientDirection from '../baseMenuItems/gradientDirection.js';
 import backgroundImages from '../baseMenuItems/backgroundImages.js';
 import imageSize from '../baseMenuItems/imageSize.js';
-import {primaryColor, useDesktopPrimaryColor} from '../baseMenuItems/primaryColor.js';
-import {secondaryColor, useDesktopSecondaryColor} from '../baseMenuItems/secondaryColor.js';
+import primaryColor from '../baseMenuItems/primaryColor.js';
+import secondaryColor from '../baseMenuItems/secondaryColor.js';
 import bRadius from '../baseMenuItems/bRadius.js';
 import bBrightness from '../baseMenuItems/bBrightness.js';
 
@@ -40,10 +40,7 @@ const setBackgrounds = async (lockscreenExt, n, menu) => {
     const pColor = primaryColor(lockscreenExt, n);
     section.addMenuItem(pColor);
 
-    const sPColor = useDesktopPrimaryColor(lockscreenExt, n);
-    section.addMenuItem(sPColor);
-
-    catchItems.push(pColor, sPColor);
+    catchItems.push(pColor);
     //
 
     section.addMenuItem(new PopupMenu.PopupSeparatorMenuItem('Secondary Color')); //
@@ -52,10 +49,7 @@ const setBackgrounds = async (lockscreenExt, n, menu) => {
     const sColor = secondaryColor(lockscreenExt, n);
     section.addMenuItem(sColor);
 
-    const sSColor = useDesktopSecondaryColor(lockscreenExt, n);
-    section.addMenuItem(sSColor);
-
-    catchItems.push(sColor, sSColor);
+    catchItems.push(sColor);
     //
 
     section.addMenuItem(new PopupMenu.PopupSeparatorMenuItem('Gradient Direction')); //

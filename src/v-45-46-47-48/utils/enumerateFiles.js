@@ -1,32 +1,31 @@
-import GLib from 'gi://GLib';
 import Gio from 'gi://Gio';
+import GLib from 'gi://GLib';
 
 /* eslint-disable consistent-return */
 
 /* Gio.File */
 Gio._promisify(Gio.File.prototype, 'enumerate_children_async');
-Gio._promisify(Gio.File.prototype, 'query_info_async');
 
 /* Gio.FileEnumerator */
 Gio._promisify(Gio.FileEnumerator.prototype, 'next_files_async');
 
-/**
- * Recursively operate on @file and any children it may have.
- *
- * @param {Gio.File} file - the file or directory
- * @returns {Promise} a Promise for the operation
- */
-async function recursiveFileOperation(file) {
+const enumerateFiles = async dir => {
     const stack = [];
 
-    const fileInfo = await file.query_info_async('standard::type',
-        Gio.FileQueryInfoFlags.NOFOLLOW_SYMLINKS, GLib.PRIORITY_DEFAULT,
-        null);
+    const fileInfo = await dir.query_info_async('standard::type',
+        Gio.FileQueryInfoFlags.NOFOLLOW_SYMLINKS,
+        GLib.PRIORITY_DEFAULT,
+        null
+    );
 
     const fileType = fileInfo.get_file_type();
 
     if (fileType === Gio.FileType.DIRECTORY) {
-        const iter = await file.enumerate_children_async('standard::type', Gio.FileQueryInfoFlags.NOFOLLOW_SYMLINKS, GLib.PRIORITY_DEFAULT, null);
+        const iter = await dir.enumerate_children_async('standard::type',
+            Gio.FileQueryInfoFlags.NOFOLLOW_SYMLINKS,
+            GLib.PRIORITY_DEFAULT,
+            null
+        );
         const fileInfos = await iter.next_files_async(100, GLib.PRIORITY_DEFAULT, null);
         if (fileInfos.length === 0)
             return;
@@ -40,6 +39,6 @@ async function recursiveFileOperation(file) {
     }
 
     return stack;
-}
+};
 
-export default recursiveFileOperation;
+export default enumerateFiles;

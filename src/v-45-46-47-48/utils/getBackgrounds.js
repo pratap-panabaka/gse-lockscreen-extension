@@ -12,14 +12,14 @@
 /* eslint-disable no-await-in-loop */
 
 import Gio from 'gi://Gio';
-import recursiveFileOperation from './recursiveFileOperation.js';
+import enumerateFiles from './enumerateFiles.js';
 
 const getBackgrounds = async paths => {
     let backgroundFileNames = [];
     for (const dirName of paths) {
         const dir = Gio.File.new_for_path(dirName);
         if (dir.query_exists(null)) {
-            let result = await recursiveFileOperation(dir);
+            let result = await enumerateFiles(dir);
             if (result)
                 backgroundFileNames.push(...result);
         }

@@ -22,6 +22,7 @@ const backgroundImages = async (lockscreenExt, n) => {
     let paths = [userSelectedFolder, localShare, usrLocalShare, usrShare];
 
     const backgrounds = await getBackgrounds(paths);
+
     let items = createBackgroundPathItems(backgrounds, lockscreenExt, n);
 
     const text = lockscreenExt._settings.get_string(`background-image-path-${n}`);
