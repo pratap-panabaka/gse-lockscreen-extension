@@ -1,4 +1,4 @@
-const { GObject } = imports.gi;
+const {GObject} = imports.gi;
 
 const Dialog = imports.ui.dialog;
 const ModalDialog = imports.ui.modalDialog;
@@ -6,8 +6,8 @@ const ModalDialog = imports.ui.modalDialog;
 var ConfirmDialog = GObject.registerClass(
     {
         Signals: {
-            cancel: { param_types: [GObject.TYPE_BOOLEAN] },
-            proceed: { param_types: [GObject.TYPE_BOOLEAN] },
+            cancel: {param_types: [GObject.TYPE_BOOLEAN]},
+            proceed: {param_types: [GObject.TYPE_BOOLEAN]},
         },
     },
     class ConfirmDialog extends ModalDialog.ModalDialog {

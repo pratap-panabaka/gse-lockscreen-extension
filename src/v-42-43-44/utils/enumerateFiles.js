@@ -1,40 +1,41 @@
-// SPDX-FileCopyrightText: 2020 Florian Müllner <fmuellner@gnome.org>
-//
-// SPDX-License-Identifier: GPL-2.0-or-later
+const {Gio, GLib} = imports.gi;
 
-// -*- mode: js2; indent-tabs-mode: nil; js2-basic-offset: 4 -*-
+/* eslint-disable consistent-return */
 
-// we use async/await here to not block the mainloop, not to parallelize
-/* eslint-disable no-await-in-loop */
-
-// source code: https://extensions.gnome.org/extension/19/user-themes/
-// Below code is edited by PRATAP PANABAKA <pratap@fastmail.fm>
-
-const { Gio, GLib } = imports.gi;
-
+/* Gio.File */
 Gio._promisify(Gio.File.prototype, 'enumerate_children_async');
+
+/* Gio.FileEnumerator */
 Gio._promisify(Gio.FileEnumerator.prototype, 'next_files_async');
 
-var enumerateFiles = async dir => {
-    const fileInfos = [];
-    let fileEnum;
-    try {
-        fileEnum = await dir.enumerate_children_async(
-            Gio.FILE_ATTRIBUTE_STANDARD_NAME,
-            Gio.FileQueryInfoFlags.NONE,
-            GLib.PRIORITY_DEFAULT, null);
-    } catch (e) {
-        if (!e.matches(Gio.IOErrorEnum, Gio.IOErrorEnum.NOT_FOUND))
-            logError(e);
-        return [];
+async function enumerateFiles(dir) {
+    const stack = [];
+
+    const fileInfo = await dir.query_info_async('standard::type',
+        Gio.FileQueryInfoFlags.NOFOLLOW_SYMLINKS,
+        GLib.PRIORITY_DEFAULT,
+        null
+    );
+
+    const fileType = fileInfo.get_file_type();
+
+    if (fileType === Gio.FileType.DIRECTORY) {
+        const iter = await dir.enumerate_children_async('standard::type',
+            Gio.FileQueryInfoFlags.NOFOLLOW_SYMLINKS,
+            GLib.PRIORITY_DEFAULT,
+            null
+        );
+        const fileInfos = await iter.next_files_async(100, GLib.PRIORITY_DEFAULT, null);
+        if (fileInfos.length === 0)
+            return;
+
+        for (const info of fileInfos) {
+            const child = iter.get_child(info);
+            const childType = info.get_file_type();
+            if (childType === Gio.FileType.REGULAR)
+                stack.push(child.get_uri());
+        }
     }
 
-    let infos;
-    do {
-        infos = await fileEnum.next_files_async(100, GLib.PRIORITY_DEFAULT, null);
-        const filterdInfos = infos.filter(info => info.get_file_type() === Gio.FileType.REGULAR);
-        fileInfos.push(...filterdInfos);
-    } while (infos.length > 0);
-
-    return fileInfos.map(info => info.get_name());
+    return stack;
 };

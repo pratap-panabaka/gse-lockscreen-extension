@@ -16,15 +16,15 @@
  * SPDX-License-Identifier: GPL-2.0-or-later
  */
 
-const { Gio, St, Shell } = imports.gi;
+const {Gio, St, Shell} = imports.gi;
 const Main = imports.ui.main;
 const UnlockDialog = imports.ui.unlockDialog;
 
 const ExtensionUtils = imports.misc.extensionUtils;
 const Me = ExtensionUtils.getCurrentExtension();
 
-const { LockscreenExt } = Me.imports.lockscreenExt;
-const { getUserBackground } = Me.imports.utils.getUserBackground;
+const {LockscreenExt} = Me.imports.lockscreenExt;
+const {getDesktopBackground} = Me.imports.utils.getDesktopBackground;
 
 let native = UnlockDialog.UnlockDialog.prototype._createBackground;
 
@@ -32,11 +32,14 @@ class LockscreenExtension {
     enable() {
         this._settings = ExtensionUtils.getSettings();
 
+        this._systemBgSettings = new Gio.Settings({schema_id: 'org.gnome.desktop.background'});
+
         // for disconnecting signals
         this._keys = this._settings.list_keys();
         this._keys.forEach(key => {
             this[`_${key}_changedId`] = null;
-        })
+        });
+        this._systemBgChangedId = null;
         //
 
         this._indicator = null;
@@ -50,30 +53,28 @@ class LockscreenExtension {
         // override _createBackground method
         UnlockDialog.UnlockDialog.prototype._createBackground = this._override;
 
-        if (Main.screenShield._dialog) {
+        if (Main.screenShield._dialog)
             Main.screenShield._dialog._updateBackgrounds();
-        }
     }
 
     // overriding _createBackground method
     _override(monitorIndex) {
-
         const settings = ExtensionUtils.getSettings();
 
         const n = monitorIndex + 1;
         let themeContext = St.ThemeContext.get_for_stage(global.stage);
 
-        let blurSigma = settings.get_int(`blur-sigma-${n}`);
+        let blurRadius = settings.get_int(`blur-radius-${n}`);
         let blurBrightness = settings.get_double(`blur-brightness-${n}`);
 
         let blurEffect = {
             name: 'lockscreen-extension-blur',
-            sigma: blurSigma * themeContext.scale_factor,
-            brightness: blurBrightness
+            sigma: blurRadius * themeContext.scale_factor,
+            brightness: blurBrightness,
         };
 
         let userBackground = settings.get_boolean(`user-background-${n}`);
-        let imagePath = userBackground ? getUserBackground() : settings.get_string(`background-image-path-${n}`);
+        let imagePath = userBackground ? getDesktopBackground() : settings.get_string(`background-image-path-${n}`);
         let file = Gio.file_new_for_uri(imagePath);
         let isPathExists = file.query_exists(null);
 
@@ -81,10 +82,10 @@ class LockscreenExtension {
 
         let widget = new St.Widget({
             style: `
-            background-color: ${settings.get_string(`background-color-${n}`)};
-            background-gradient-direction: ${settings.get_string(`background-gradient-direction-${n}`)};
-            background-gradient-start: ${settings.get_string(`background-color-${n}`)};
-            background-gradient-end: ${settings.get_string(`background-gradient-end-color-${n}`)};
+            background-color: ${settings.get_string(`primary-color-${n}`)};
+            background-gradient-direction: ${settings.get_string(`gradient-direction-${n}`)};
+            background-gradient-start: ${settings.get_string(`primary-color-${n}`)};
+            background-gradient-end: ${settings.get_string(`secondary-color-${n}`)};
             background-image: ${isPathExists ? `url(${imagePath})` : 'none'};
             background-size: ${settings.get_string(`background-size-${n}`)};
             `,
@@ -98,25 +99,24 @@ class LockscreenExtension {
         Main.screenShield._dialog._backgroundGroup.add_child(widget);
     }
 
-    _onChangesFromGDMScreen() {
-        if (Main.screenShield._dialog) {
+    _onChangesFromLockScreen() {
+        if (Main.screenShield._dialog)
             Main.screenShield._dialog._updateBackgrounds();
-        }
     }
 
     _callMonitorConnectionSettings(n) {
         [
-            `background-color-${n}`,
-            `background-gradient-direction-${n}`,
-            `background-gradient-end-color-${n}`,
+            `primary-color-${n}`,
+            `gradient-direction-${n}`,
+            `secondary-color-${n}`,
             `background-image-path-${n}`,
             `background-size-${n}`,
-            `blur-sigma-${n}`,
+            `blur-radius-${n}`,
             `blur-brightness-${n}`,
-            `user-background-${n}`
+            `user-background-${n}`,
         ]
             .forEach(key => {
-                this[`_${key}_changedId`] = this._settings.connect(`changed::${key}`, this._onChangesFromGDMScreen.bind(this))
+                this[`_${key}_changedId`] = this._settings.connect(`changed::${key}`, this._onChangesFromLockScreen.bind(this));
             });
     }
 
@@ -126,27 +126,29 @@ class LockscreenExtension {
         let n = 1;
         while (nMonitors > 0) {
             switch (n) {
-                case 1:
-                    this._callMonitorConnectionSettings(n);
-                    break;
-                case 2:
-                    this._callMonitorConnectionSettings(n);
-                    break;
-                case 3:
-                    this._callMonitorConnectionSettings(n);
-                    break;
-                case 4:
-                    this._callMonitorConnectionSettings(n);
-                    break;
-                default:
-                    break;
+            case 1:
+                this._callMonitorConnectionSettings(n);
+                break;
+            case 2:
+                this._callMonitorConnectionSettings(n);
+                break;
+            case 3:
+                this._callMonitorConnectionSettings(n);
+                break;
+            case 4:
+                this._callMonitorConnectionSettings(n);
+                break;
+            default:
+                break;
             }
             n += 1;
             nMonitors -= 1;
         }
 
-        let key = "hide-lockscreen-extension-button";
+        let key = 'hide-lockscreen-extension-button';
         this[`_${key}_changedId`] = this._settings.connect(`changed::${key}`, this._onVisibilityChange.bind(this));
+        if (!this._systemBgChangedId)
+            this._systemBgChangedId = this._systemBgSettings.connect('changed::picture-uri', this._onChangesFromLockScreen.bind(this));
     }
 
     _disconnectSignals() {
@@ -155,8 +157,14 @@ class LockscreenExtension {
                 this._settings.disconnect(this[`_${key}_changedId`]);
                 this[`_${key}_changedId`] = null;
             }
-        })
+        });
         this._keys = null;
+
+        // systemBgChangeSignal
+        if (this._systemBgChangedId) {
+            this._systemBgSettings.disconnect(this._systemBgChangedId);
+            this._systemBgChangedId = null;
+        }
     }
 
     _onVisibilityChange() {
