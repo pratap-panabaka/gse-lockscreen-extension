@@ -2,7 +2,7 @@
 
 ___
 
-this extension v9 update for GNOME V45 and above.
+this extension v9 update.
 - removed sliders and used entry box'es for blur-radius and blur-brightness.
 - added settings for selecting custom folder from which background images to be picked.
 - preview of background images.
