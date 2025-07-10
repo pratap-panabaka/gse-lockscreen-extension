@@ -12,6 +12,10 @@ this extension v9 update.
 
 ![alt text](image.png)
 
+Ubuntu 22.04 Screenshots
+![image](https://github.com/user-attachments/assets/581c96ae-7309-49d1-b0b9-0e311a085db6)
+
+![image](https://github.com/user-attachments/assets/a45eb500-1887-43ce-8553-4b8f1d71f586)
 ___
 
 This extension is a improvment of [Control Blur Effect on Lock Screen](https://github.com/PRATAP-KUMAR/control-blur-effect-on-lockscreen) extension.
