@@ -65,7 +65,7 @@ const setBackgrounds = async (lockscreenExt, n, menu) => {
 
     section.addMenuItem(new PopupMenu.PopupSeparatorMenuItem('Background Size')); //
 
-    // gradient direction
+    // imaze size
     const iSize = imageSize(lockscreenExt, n);
     iSize.forEach(direction => {
         section.addMenuItem(direction);
