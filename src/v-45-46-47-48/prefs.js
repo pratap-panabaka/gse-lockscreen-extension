@@ -1,5 +1,3 @@
-// const { Adw } = imports.gi;
-
 import Adw from 'gi://Adw';
 import GLib from 'gi://GLib';
 import Gtk from 'gi://Gtk';
