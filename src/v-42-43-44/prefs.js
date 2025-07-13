@@ -1,15 +1,8 @@
-const GLib = imports.gi.GLib;
-const Gtk = imports.gi.Gtk;
+const {Adw, GLib, Gtk} = imports.gi;
 
 const ExtensionUtils = imports.misc.extensionUtils;
 
-function init() {
-}
-
-function buildPrefsWidget() {
-    let widget = new PrefsWidget();
-    return widget.widget;
-}
+function init() { }
 
 class CreateButton {
     constructor(label, key) {
@@ -33,9 +26,9 @@ class CreateButton {
     }
 }
 
-class PrefsWidget {
-    constructor() {
-        this.gsettings = ExtensionUtils.getSettings();
+class FileChooserWidget {
+    constructor(settings) {
+        this._gsettings = settings;
 
         this.widget = new Gtk.Box({
             orientation: Gtk.Orientation.VERTICAL,
@@ -50,32 +43,8 @@ class PrefsWidget {
             margin_top: 0,
             hexpand: true,
         });
-        this.vbox.set_size_request(550, 650);
-
-        this.vbox.append(new Gtk.Separator({orientation: Gtk.Orientation.HORIZONTAL, margin_bottom: 5, margin_top: 5}));
 
         this.vbox.append(this.addPictureUrl());
-
-        this.vbox.append(new Gtk.Separator({orientation: Gtk.Orientation.HORIZONTAL, margin_bottom: 5, margin_top: 5}));
-
-        let hbox = new Gtk.Box({orientation: Gtk.Orientation.HORIZONTAL, margin_top: 5});
-        let settingLabel = new Gtk.Label({label: 'Select wheather to pick images from below folders', xalign: 0, hexpand: true});
-        hbox.append(settingLabel);
-
-        this.vbox.append(hbox);
-
-        this.vbox.append(new Gtk.Separator({orientation: Gtk.Orientation.HORIZONTAL, margin_bottom: 5, margin_top: 5}));
-
-        this.vbox.append(new CreateButton(`${GLib.get_user_data_dir()}/backgrounds`, 'local-share-backgrounds-folder-path')._createButton());
-
-        this.vbox.append(new Gtk.Separator({orientation: Gtk.Orientation.HORIZONTAL, margin_bottom: 5, margin_top: 5}));
-        this.vbox.append(new CreateButton('/usr/local/share/backgrounds', 'usr-local-share-backgrounds-folder-path')._createButton());
-
-        this.vbox.append(new Gtk.Separator({orientation: Gtk.Orientation.HORIZONTAL, margin_bottom: 5, margin_top: 5}));
-        this.vbox.append(new CreateButton('/usr/share/backgrounds', 'usr-share-backgrounds-folder-path')._createButton());
-
-        this.vbox.append(new Gtk.Separator({orientation: Gtk.Orientation.HORIZONTAL, margin_bottom: 5, margin_top: 5}));
-
         this.widget.append(this.vbox);
     }
 
@@ -85,9 +54,9 @@ class PrefsWidget {
         this.setting_entry = new Gtk.Entry({hexpand: true, margin_start: 20});
         this.setting_entry.set_placeholder_text('/home/username/myWallpapers');
 
-        this.setting_entry.set_text(this.gsettings.get_string('backgrounds-folder-path'));
+        this.setting_entry.set_text(this._gsettings.get_string('backgrounds-folder-path'));
         this.setting_entry.connect('changed', entry => {
-            this.gsettings.set_string('backgrounds-folder-path', entry.get_text());
+            this._gsettings.set_string('backgrounds-folder-path', entry.get_text());
         });
 
         this.fileChooseButton = new Gtk.Button({margin_start: 5});
@@ -120,4 +89,58 @@ class PrefsWidget {
 
         fileChooser.show();
     }
+}
+
+class ToggleFoldersWidget {
+    constructor(settings) {
+        this._gsettings = settings;
+
+        this.widget = new Gtk.Box({
+            orientation: Gtk.Orientation.VERTICAL,
+            margin_top: 10,
+            margin_bottom: 10,
+            margin_start: 10,
+            margin_end: 10,
+        });
+
+        this.vbox = new Gtk.Box({
+            orientation: Gtk.Orientation.VERTICAL,
+            margin_top: 0,
+            hexpand: true,
+        });
+
+        this.vbox.append(new CreateButton(`${GLib.get_user_data_dir()}/backgrounds`, 'local-share-backgrounds-folder-path')._createButton());
+
+        this.vbox.append(new CreateButton('/usr/local/share/backgrounds', 'usr-local-share-backgrounds-folder-path')._createButton());
+
+        this.vbox.append(new CreateButton('/usr/share/backgrounds', 'usr-share-backgrounds-folder-path')._createButton());
+
+        this.widget.append(this.vbox);
+    }
+}
+
+function fillPreferencesWindow(window) {
+    window._settings = ExtensionUtils.getSettings();
+
+    window.set_default_size(800, 600);
+    window.search_enabled = true;
+
+    let page = new Adw.PreferencesPage();
+
+    let group = new Adw.PreferencesGroup({title: 'Here, please configure the custom folder, to pick the image files.'});
+    let widget = new FileChooserWidget(window._settings);
+    group.add(widget.widget);
+
+    let toggleGroup = new Adw.PreferencesGroup({title: 'Select wheather to pick images from below folders'});
+    let toogleWidget = new ToggleFoldersWidget(window._settings);
+    toggleGroup.add(toogleWidget.widget);
+
+    let hintGroup = new Adw.PreferencesGroup({title: 'Hint'});
+    hintGroup.add(new Gtk.Label({label: 'Once you configure the folders, those folders will be scanned for image files and show you on lockscreen to select one.', xalign: 0, hexpand: true}));
+
+    page.add(group);
+    page.add(toggleGroup);
+    page.add(hintGroup);
+
+    window.add(page);
 }
