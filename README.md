@@ -2,15 +2,11 @@
 
 ___
 
-this extension v9 update.
+this extensions recent update.
 - removed sliders and used entry box'es for blur-radius and blur-brightness.
 - added settings for selecting custom folder from which background images to be picked.
 - preview of background images.
 - compatible with [variety app](https://github.com/varietywalls/variety).
-
-![alt text](image-1.png)
-
-![alt text](image.png)
 
 Ubuntu 22.04 Screenshots
 ![image](https://github.com/user-attachments/assets/581c96ae-7309-49d1-b0b9-0e311a085db6)
