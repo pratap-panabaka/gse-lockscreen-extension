@@ -3,7 +3,7 @@ import GLib from 'gi://GLib';
 import Gtk from 'gi://Gtk';
 import Gio from 'gi://Gio';
 
-import {ExtensionPreferences} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
+import { ExtensionPreferences } from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 
 class PrefsWidget {
     constructor(settings) {
@@ -21,25 +21,28 @@ class PrefsWidget {
     }
 
     addPictureUrl() {
-        this._entryRow = new Adw.EntryRow();
+        this._entryRow = new Adw.EntryRow({ title: "Please select the folder where your background image files are located" });
 
         this._entryRow.set_text(this._gsettings.get_string('backgrounds-folder-path'));
         this._entryRow.connect('changed', entry => {
             this._gsettings.set_string('backgrounds-folder-path', entry.get_text());
         });
 
+        this._entryRow.add_suffix(this.addButton());
+
         return this._entryRow;
     }
 
     addButton() {
-        this._fileChooseButton = new Adw.ButtonRow({title: 'Browse Folder'});
-        this._fileChooseButton.connect('activated', this.showFileChooserDialog.bind(this));
+        this._fileChooseButton = new Gtk.Button({ label: 'Browse Folder' });
+        this._fileChooseButton.set_has_frame(true);
+        this._fileChooseButton.connect('clicked', this.showFileChooserDialog.bind(this));
 
         return this._fileChooseButton;
     }
 
     showFileChooserDialog() {
-        this._fileChooser = new Gtk.FileDialog({title: 'Select Folder'});
+        this._fileChooser = new Gtk.FileDialog({ title: 'Select Folder' });
         this._fileChooser.select_folder(null, null, (dialog, result) => {
             this.onSelectFolderFinish(dialog, result);
         }, null);
@@ -71,18 +74,17 @@ export default class LockscreenExtensionPrefs extends ExtensionPreferences {
 
         let widget = new PrefsWidget(window._settings);
 
-        let bannerGroup = new Adw.PreferencesGroup({title: 'Hint'});
+        let bannerGroup = new Adw.PreferencesGroup({ title: 'Hint' });
         bannerGroup.add(widget.banner());
 
         page.add(bannerGroup);
 
-        let selectFolderGroup = new Adw.PreferencesGroup({title: 'Select Custom Folder'});
+        let selectFolderGroup = new Adw.PreferencesGroup({ title: 'Select Custom Folder' });
         page.add(selectFolderGroup);
 
         selectFolderGroup.add(widget.addPictureUrl());
-        selectFolderGroup.add(widget.addButton());
 
-        let group = new Adw.PreferencesGroup({title: 'Get backgrounds from below folders'});
+        let group = new Adw.PreferencesGroup({ title: 'Get backgrounds from below folders' });
         page.add(group);
 
         const local = new Adw.SwitchRow({
