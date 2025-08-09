@@ -1,90 +1,25 @@
 import Adw from 'gi://Adw';
 import GLib from 'gi://GLib';
-import Gtk from 'gi://Gtk';
 import Gio from 'gi://Gio';
 
-import { ExtensionPreferences } from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
-
-class PrefsWidget {
-    constructor(settings) {
-        this._gsettings = settings;
-    }
-
-    banner() {
-        this._banner = new Adw.Banner({
-            title: `Hi ${GLib.get_real_name()}, Here, please configure the folders to pick the image files to show. The folders you configure here will be scanned for images and show you on lockscreen for you to select one as a lockscreen background.`,
-            revealed: true,
-            'use-markup': false,
-        });
-
-        return this._banner;
-    }
-
-    addPictureUrl() {
-        this._entryRow = new Adw.EntryRow({ title: "Please select the folder where your background image files are located" });
-
-        this._entryRow.set_text(this._gsettings.get_string('backgrounds-folder-path'));
-        this._entryRow.connect('changed', entry => {
-            this._gsettings.set_string('backgrounds-folder-path', entry.get_text());
-        });
-
-        this._entryRow.add_suffix(this.addButton());
-
-        return this._entryRow;
-    }
-
-    addButton() {
-        this._fileChooseButton = new Gtk.Button({ label: 'Browse Folder' });
-        this._fileChooseButton.set_has_frame(true);
-        this._fileChooseButton.connect('clicked', this.showFileChooserDialog.bind(this));
-
-        return this._fileChooseButton;
-    }
-
-    showFileChooserDialog() {
-        this._fileChooser = new Gtk.FileDialog({ title: 'Select Folder' });
-        this._fileChooser.select_folder(null, null, (dialog, result) => {
-            this.onSelectFolderFinish(dialog, result);
-        }, null);
-    }
-
-    onSelectFolderFinish(dialog, result) {
-        try {
-            const folder = dialog.select_folder_finish(result);
-            if (folder)
-                this._entryRow.set_text(folder.get_path());
-            else
-                console.log('No folder selected.');
-        } catch (e) {
-            console.log(`Error selecting folder: ${e}`);
-        } finally {
-            dialog.destroy();
-        }
-    }
-}
+import {ExtensionPreferences} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
+import PickFolder from './utils/pickFolder.js';
 
 export default class LockscreenExtensionPrefs extends ExtensionPreferences {
     fillPreferencesWindow(window) {
         window._settings = this.getSettings();
 
-        window.set_default_size(800, 600);
+        window.set_default_size(800, 800);
         window.search_enabled = true;
 
         let page = new Adw.PreferencesPage();
 
-        let widget = new PrefsWidget(window._settings);
-
-        let bannerGroup = new Adw.PreferencesGroup({ title: 'Hint' });
-        bannerGroup.add(widget.banner());
-
-        page.add(bannerGroup);
-
-        let selectFolderGroup = new Adw.PreferencesGroup({ title: 'Select Custom Folder' });
+        let selectFolderGroup = new Adw.PreferencesGroup({title: 'Select Custom Folder'});
         page.add(selectFolderGroup);
 
-        selectFolderGroup.add(widget.addPictureUrl());
+        selectFolderGroup.add(new PickFolder(window._settings).addFolderUrl());
 
-        let group = new Adw.PreferencesGroup({ title: 'Get backgrounds from below folders' });
+        let group = new Adw.PreferencesGroup({title: 'Get backgrounds from below folders'});
         page.add(group);
 
         const local = new Adw.SwitchRow({

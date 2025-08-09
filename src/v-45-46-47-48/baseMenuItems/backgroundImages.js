@@ -5,7 +5,7 @@ import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
 import updateOrnament from '../utils/updateOrnament.js';
 import getBackgrounds from '../utils/getBackgrounds.js';
 
-const desktopBackground = 'Use Whatever My Desktop Background Image Is';
+const DESKTOP_BACKGROUND = 'Use Whatever My Desktop Background Image Is';
 
 const backgroundImages = async (lockscreenExt, n) => {
     const userSelectedFolder = lockscreenExt._settings.get_string('backgrounds-folder-path') || '';
@@ -27,7 +27,7 @@ const backgroundImages = async (lockscreenExt, n) => {
 
     const text = lockscreenExt._settings.get_string(`background-image-path-${n}`);
     const userBackground = lockscreenExt._settings.get_boolean(`user-background-${n}`);
-    updateOrnament(items, userBackground ? desktopBackground : text);
+    updateOrnament(items, userBackground ? DESKTOP_BACKGROUND : text);
 
     return items;
 };
@@ -36,12 +36,12 @@ const createBackgroundPathItems = (backgrounds, lockscreenExt, n) => {
     let items = [];
 
     // Add System Background Item
-    let desktopBackgroundItem = new PopupMenu.PopupMenuItem(desktopBackground);
+    let desktopBackgroundItem = new PopupMenu.PopupMenuItem(DESKTOP_BACKGROUND);
     items.push(desktopBackgroundItem);
 
     desktopBackgroundItem.connect('activate', () => {
         lockscreenExt._settings.set_boolean(`user-background-${n}`, true);
-        updateOrnament(items, desktopBackground);
+        updateOrnament(items, DESKTOP_BACKGROUND);
         lockscreenExt._settings.set_string(`gradient-direction-${n}`, 'none');
         updateOrnament(lockscreenExt._catchGradientDirection, 'none');
     });
