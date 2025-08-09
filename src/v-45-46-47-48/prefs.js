@@ -9,8 +9,7 @@ export default class LockscreenExtensionPrefs extends ExtensionPreferences {
     fillPreferencesWindow(window) {
         window._settings = this.getSettings();
 
-        window.set_default_size(800, 800);
-        window.search_enabled = true;
+        window.set_default_size(800, 500);
 
         let page = new Adw.PreferencesPage();
 
