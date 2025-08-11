@@ -15,7 +15,7 @@ This extension is a improvment of [Control Blur Effect on Lock Screen](https://g
 - You can set different background images/colors for each monitor upto four monitors.
 
 > [!NOTE]
-> Currently it is tested on Arch Linux and Ubuntu 22.04, 24.04, 24.10
+> Currently it is tested on Arch Linux(gnome v48 & 49) and Ubuntu 24.04 (gnome v46)
 
 ### Install
 ```
@@ -23,13 +23,6 @@ git clone https://github.com/pratap-panabaka/gse-lockscreen-extension
 cd gse-lockscreen-extension
 ./install.sh
 ```
-
-> [!TIP]
-> After you hide the extension button from the lockscreen, to show it back, run below command
->
-> ```
-> gsettings --schemadir $HOME/.local/share/gnome-shell/extensions/lockscreen-extension@pratap.fastmail.fm/schemas set org.gnome.shell.extensions.lockscreen-extension hide-lockscreen-extension-button false
-> ```
 
 ### Uninstall
 ```
