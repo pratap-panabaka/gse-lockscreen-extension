@@ -90,7 +90,15 @@ const setBackgrounds = async (lockscreenExt, n, menu) => {
     //
 
     section.addMenuItem(new PopupMenu.PopupSeparatorMenuItem('Backgroud Images')); //
-    section.addMenuItem(new PopupMenu.PopupSeparatorMenuItem('(Note that\nfor dynamically changing the desktop bg\'s at an interval of x seconds\nbelow option only works if third party apps\n[such as https://github.com/varietywalls/variety]\nsets the desktop bg with gsettings with path to image.\n.xml files will not work.)'));
+    section.addMenuItem(new PopupMenu.PopupSeparatorMenuItem(
+        `(Note that
+        If you are using third party apps or scripts or .xml file
+        for dynamically changing the desktop bg's at an interval of x seconds,
+        below option only works if third party apps
+        [such as https://github.com/varietywalls/variety] or scripts
+        sets the desktop bg with gsettings with path to image.
+        .xml files will not work.)`
+    ));
 
     // background images
     const backgrounds = await backgroundImages(lockscreenExt, n);

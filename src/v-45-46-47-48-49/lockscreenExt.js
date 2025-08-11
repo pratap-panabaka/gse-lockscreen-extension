@@ -5,7 +5,6 @@ import St from 'gi://St';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js';
 
-import hideExtensionButton from './buttons/hideExtensionButton.js';
 import lockscreenExtMenu from './menus/lockscreenExtensionMenu.js';
 
 const LockscreenExt = GObject.registerClass(
@@ -14,20 +13,19 @@ const LockscreenExt = GObject.registerClass(
             super._init(0.0, 'lockscreen-extension indicator');
             this._settings = settings;
 
+            this.set_style('-natural-hpadding: 0');
+
             this._box = new St.BoxLayout();
+            this._box.set_style('padding-left: 0; padding-right: 16px');
             this.add_child(this._box);
 
             this._box.add_child(new St.Icon({
-                icon_name: 'preferences-system-symbolic',
-                style_class: 'system-status-icon',
+                icon_name: 'org.gnome.Extensions',
             }));
 
             this._box.add_child(new St.Label({text: 'lockscreen-extension', y_align: Clutter.ActorAlign.CENTER}));
 
             this._createMenu();  // Things happen here for the purpose of lockscreen customization
-
-            const generateHideExtensionButton = hideExtensionButton(this);
-            this.menu.addMenuItem(generateHideExtensionButton); // Extension Hide Button
         }
 
         _createMenu() {

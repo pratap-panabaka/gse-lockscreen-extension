@@ -9,11 +9,22 @@ export default class LockscreenExtensionPrefs extends ExtensionPreferences {
     fillPreferencesWindow(window) {
         window._settings = this.getSettings();
 
-        window.set_default_size(800, 500);
+        window.set_default_size(800, 600);
 
         let page = new Adw.PreferencesPage();
 
-        let selectFolderGroup = new Adw.PreferencesGroup({title: 'Select Custom Folder'});
+        let buttonHideGroup = new Adw.PreferencesGroup({title: 'Hide lockscreen-extension button from lockscreen'});
+        page.add(buttonHideGroup);
+
+        let hideButton = new Adw.SwitchRow({
+            title: 'Hide lockscreen-extension button',
+        });
+        buttonHideGroup.add(hideButton);
+
+        let selectFolderGroup = new Adw.PreferencesGroup({
+            title: 'Select Custom Folder',
+            description: 'Image files from this folder will be picked and show you at lockscreen. You can choose background image from there.',
+        });
         page.add(selectFolderGroup);
 
         selectFolderGroup.add(new PickFolder(window._settings).addFolderUrl());
@@ -39,6 +50,7 @@ export default class LockscreenExtensionPrefs extends ExtensionPreferences {
         window._settings.bind('local-share-backgrounds-folder-path', local, 'active', Gio.SettingsBindFlags.DEFAULT);
         window._settings.bind('usr-local-share-backgrounds-folder-path', usrLocal, 'active', Gio.SettingsBindFlags.DEFAULT);
         window._settings.bind('usr-share-backgrounds-folder-path', usr, 'active', Gio.SettingsBindFlags.DEFAULT);
+        window._settings.bind('hide-lockscreen-extension-button', hideButton, 'active', Gio.SettingsBindFlags.DEFAULT);
 
         window.add(page);
     }

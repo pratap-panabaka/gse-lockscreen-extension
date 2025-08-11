@@ -10,7 +10,7 @@ class PickFolder {
     }
 
     addFolderUrl() {
-        this._entryRow = new Adw.EntryRow({title: 'Image files from this folder will be picked'});
+        this._entryRow = new Adw.EntryRow({title: 'Folder containing images'});
 
         this._entryRow.set_text(this._gsettings.get_string('backgrounds-folder-path'));
         this._entryRow.connect('changed', entry => {
