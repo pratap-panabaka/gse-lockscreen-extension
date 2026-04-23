@@ -17,6 +17,9 @@ import enumerateFiles from './enumerateFiles.js';
 const getBackgrounds = async paths => {
     let backgroundFileNames = [];
     for (const dirName of paths) {
+        if (!dirName)
+            continue;
+
         const dir = Gio.File.new_for_path(dirName);
         if (dir.query_exists(null)) {
             let result = await enumerateFiles(dir);
@@ -25,20 +28,20 @@ const getBackgrounds = async paths => {
         }
     }
 
-    const filtered = backgroundFileNames
+    const filtered = [...new Set(backgroundFileNames)]
         .map(name => name.trim())
+        .filter(name => name.length > 0)
         .filter(
-            name =>
-                name.endsWith('.jpg') ||
-                name.endsWith('.jpeg') ||
-                name.endsWith('.png') ||
-                name.endsWith('.gif') ||
-                name.endsWith('.webp') ||
-                name.endsWith('.JPG') ||
-                name.endsWith('.JPEG') ||
-                name.endsWith('.PNG') ||
-                name.endsWith('.GIF') ||
-                name.endsWith('.WEBP')
+            name => {
+                const lowerName = name.toLowerCase();
+                return (
+                    lowerName.endsWith('.jpg') ||
+                    lowerName.endsWith('.jpeg') ||
+                    lowerName.endsWith('.png') ||
+                    lowerName.endsWith('.gif') ||
+                    lowerName.endsWith('.webp')
+                );
+            }
         );
 
     return filtered;

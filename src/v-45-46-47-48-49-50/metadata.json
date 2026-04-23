@@ -6,6 +6,7 @@
   },
   "name": "Lockscreen Extension",
   "session-modes": [
+    "user",
     "unlock-dialog"
   ],
   "settings-schema": "org.gnome.shell.extensions.lockscreen-extension",
