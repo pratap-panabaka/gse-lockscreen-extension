@@ -10,14 +10,13 @@
   ],
   "settings-schema": "org.gnome.shell.extensions.lockscreen-extension",
   "shell-version": [
-    "45",
-    "46",
-    "47",
-    "48",
-    "49",
-    "50"
-  ],
+  "46",
+  "47",
+  "48",
+  "49",
+  "50",
+  "51"
+],
   "url": "https://github.com/pratap-panabaka/gse-lockscreen-extension",
-  "uuid": "lockscreen-extension@pratap.fastmail.fm",
-  "version": 15
+  "uuid": "lockscreen-extension@pratap.fastmail.fm"
 }

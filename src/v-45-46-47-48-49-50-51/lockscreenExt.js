@@ -20,7 +20,8 @@ const LockscreenExt = GObject.registerClass(
             this.add_child(this._box);
 
             this._box.add_child(new St.Icon({
-                icon_name: 'org.gnome.Extensions',
+                icon_name: 'preferences-system-symbolic',
+                style_class: 'system-status-icon'
             }));
 
             this._box.add_child(new St.Label({text: 'lockscreen-extension', y_align: Clutter.ActorAlign.CENTER}));
